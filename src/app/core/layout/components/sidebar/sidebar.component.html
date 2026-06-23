@@ -1,0 +1,45 @@
+<div class="sidebar-content">
+  <div class="brand" [class.brand-collapsed]="isCollapsed()">
+    <div class="brand-mark">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    @if (!isCollapsed()) {
+      <span class="brand-name">FlowDesk</span>
+    }
+  </div>
+
+  <ul nz-menu nzMode="inline" class="navigation-menu">
+    @for (item of navigationItems; track item.path) {
+      <li
+        nz-menu-item
+        routerLinkActive="ant-menu-item-selected"
+        [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+        [routerLink]="item.path"
+      >
+        <span nz-icon [nzType]="item.icon"></span>
+
+        @if (!isCollapsed()) {
+          <span>{{ item.label }}</span>
+        }
+      </li>
+    }
+  </ul>
+
+  <button
+    nz-button
+    nzType="text"
+    class="collapse-button"
+    [class.collapse-button-collapsed]="isCollapsed()"
+    type="button"
+    (click)="onCollapseToggle()"
+  >
+    <span nz-icon [nzType]="isCollapsed() ? 'menu-unfold' : 'menu-fold'"></span>
+
+    @if (!isCollapsed()) {
+      <span>Collapse</span>
+    }
+  </button>
+</div>

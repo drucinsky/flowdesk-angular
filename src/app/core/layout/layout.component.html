@@ -1,0 +1,22 @@
+<nz-layout class="app-shell">
+  <nz-sider
+    class="app-sidebar"
+    nzCollapsible
+    [nzCollapsed]="isCollapsed()"
+    [nzTrigger]="null"
+    [nzWidth]="260"
+    [nzCollapsedWidth]="84"
+  >
+    <fd-sidebar [isCollapsed]="isCollapsed()" (collapseToggle)="toggleSidebar()" />
+  </nz-sider>
+
+  <nz-layout class="app-main">
+    <nz-header class="app-header">
+      <fd-header />
+    </nz-header>
+
+    <nz-content class="app-content">
+      <router-outlet />
+    </nz-content>
+  </nz-layout>
+</nz-layout>
