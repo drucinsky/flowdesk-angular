@@ -1,1 +1,47 @@
-<p>dashboard works!</p>
+<section class="flex flex-col gap-6">
+  <div class="flex items-start justify-between gap-6">
+    <div>
+      <h1 class="m-0 text-3xl font-bold tracking-tight text-slate-950">Dashboard</h1>
+      <p class="mt-2 text-sm text-slate-500">
+        Overview of your support operations, SLA risks and team workload.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button nz-button type="button">
+        <i nz-icon nzType="calendar"></i>
+        Today
+      </button>
+
+      <button
+        nz-button
+        nzType="primary"
+        type="button"
+        [nzLoading]="dashboardResource.isLoading()"
+        (click)="refreshDashboard()"
+      >
+        <i nz-icon nzType="reload"></i>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  @if (dashboardResource.isLoading() && !dashboardData()) {
+    <div
+      class="flex min-h-80 items-center justify-center rounded-2xl border border-slate-200 bg-white"
+    >
+      <nz-spin nzSize="large" />
+    </div>
+  } @else if (dashboardData(); as data) {
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+      @for (kpi of data.kpis; track kpi.label) {
+        <fd-dashboard-kpi-card [kpi]="kpi" />
+      }
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 xl:grid-cols-12">
+      <fd-priority-cases-widget class="xl:col-span-8" [cases]="data.priorityCases" />
+      <fd-recent-activity-widget class="xl:col-span-4" [activities]="data.recentActivities" />
+    </div>
+  }
+</section>

@@ -1,0 +1,38 @@
+<section class="widget-card">
+  <div class="widget-header">
+    <div>
+      <h2>Priority queue</h2>
+      <p>Cases that require the fastest response.</p>
+    </div>
+
+    <button nz-button nzType="link" type="button">View all</button>
+  </div>
+
+  <div class="case-list">
+    @for (caseItem of cases(); track caseItem.id) {
+      <article class="case-row">
+        <div class="case-main">
+          <div class="case-title-row">
+            <strong>{{ caseItem.id }}</strong>
+            <span>{{ caseItem.customer }}</span>
+          </div>
+
+          <p>{{ caseItem.title }}</p>
+        </div>
+
+        <div class="case-meta">
+          <nz-tag [nzColor]="getPriorityConfig(caseItem.priority).color">
+            {{ getPriorityConfig(caseItem.priority).label }}
+          </nz-tag>
+
+          <nz-tag [nzColor]="getStatusConfig(caseItem.status).color">
+            {{ getStatusConfig(caseItem.status).label }}
+          </nz-tag>
+
+          <span class="case-sla">{{ caseItem.sla }}</span>
+          <span class="case-assignee">{{ caseItem.assignee }}</span>
+        </div>
+      </article>
+    }
+  </div>
+</section>

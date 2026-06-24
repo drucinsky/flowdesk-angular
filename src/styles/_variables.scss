@@ -1,32 +1,81 @@
 :root {
+  /* Base palette */
+  --fd-white: #ffffff;
+
+  --fd-slate-50: #f8fafc;
+  --fd-slate-100: #f1f5f9;
+  --fd-slate-200: #e2e8f0;
+  --fd-slate-300: #cbd5e1;
+  --fd-slate-400: #94a3b8;
+  --fd-slate-500: #64748b;
+  --fd-slate-600: #475569;
+  --fd-slate-700: #334155;
+  --fd-slate-900: #111827;
+
+  --fd-blue-50: #eaf3ff;
+  --fd-blue-500: #1677ff;
+  --fd-blue-400: #4096ff;
+
+  --fd-green-50: #dcfce7;
+  --fd-green-600: #16a34a;
+
+  --fd-red-50: #fee2e2;
+  --fd-red-600: #dc2626;
+
+  --fd-orange-50: #fef3c7;
+  --fd-orange-600: #d97706;
+
+  --fd-pink-50: #fce7f3;
+  --fd-pink-600: #db2777;
+
+  /* Semantic colors */
   --fd-bg: #f6f8fb;
-  --fd-surface: #ffffff;
+  --fd-surface: var(--fd-white);
+  --fd-surface-muted: #fbfdff;
   --fd-surface-glass: rgba(255, 255, 255, 0.88);
 
   --fd-border: #e5eaf2;
   --fd-border-strong: #dbe3ef;
-  --fd-border-soft: #e2e8f0;
+  --fd-border-soft: var(--fd-slate-200);
 
-  --fd-text: #111827;
-  --fd-text-secondary: #334155;
-  --fd-muted: #64748b;
-  --fd-muted-light: #94a3b8;
-  --fd-nav-text: #4b5563;
-  --fd-kbd-bg: #f8fafc;
+  --fd-text: var(--fd-slate-900);
+  --fd-text-secondary: var(--fd-slate-700);
+  --fd-muted: var(--fd-slate-500);
+  --fd-muted-light: var(--fd-slate-400);
 
-  --fd-primary: #1677ff;
-  --fd-primary-hover: #4096ff;
-  --fd-primary-soft: #eaf3ff;
+  --fd-primary: var(--fd-blue-500);
+  --fd-primary-hover: var(--fd-blue-400);
+  --fd-primary-soft: var(--fd-blue-50);
 
+  --fd-success: var(--fd-green-600);
+  --fd-success-soft: var(--fd-green-50);
+
+  --fd-danger: var(--fd-red-600);
+  --fd-danger-soft: var(--fd-red-50);
+
+  --fd-warning: var(--fd-orange-600);
+  --fd-warning-soft: var(--fd-orange-50);
+
+  --fd-critical: var(--fd-pink-600);
+  --fd-critical-soft: var(--fd-pink-50);
+
+  /* Layout */
+  --fd-header-height: 72px;
+  --fd-sidebar-width: 260px;
+  --fd-sidebar-collapsed-width: 84px;
+
+  /* Radius */
   --fd-radius-sm: 6px;
   --fd-radius-md: 12px;
   --fd-radius-lg: 14px;
   --fd-radius-xl: 18px;
   --fd-radius-full: 999px;
 
-  --fd-header-height: 72px;
-  --fd-sidebar-width: 260px;
-  --fd-sidebar-collapsed-width: 84px;
-
+  /* Shadows */
   --fd-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --fd-shadow-card: 0 10px 30px rgba(15, 23, 42, 0.04);
+
+  /* Component-specific */
+  --fd-nav-text: var(--fd-slate-600);
+  --fd-kbd-bg: var(--fd-slate-50);
 }

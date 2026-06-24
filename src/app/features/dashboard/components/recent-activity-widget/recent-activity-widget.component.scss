@@ -1,0 +1,66 @@
+:host {
+  display: block;
+}
+
+.widget-card {
+  height: 100%;
+  padding: 24px;
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius-xl);
+  background: var(--fd-surface);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+}
+
+.widget-header {
+  margin-bottom: 22px;
+
+  h2 {
+    margin: 0;
+    color: var(--fd-text);
+    font-size: 18px;
+    font-weight: 760;
+    letter-spacing: -0.03em;
+  }
+
+  p {
+    margin: 6px 0 0;
+    color: var(--fd-muted);
+    font-size: 13px;
+  }
+}
+
+.activity-item {
+  padding-bottom: 4px;
+}
+
+.activity-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+
+  strong {
+    color: var(--fd-text);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  span {
+    flex: 0 0 auto;
+    color: var(--fd-muted-light);
+    font-size: 12px;
+  }
+}
+
+.activity-item p {
+  margin: 5px 0 0;
+  color: var(--fd-muted);
+  font-size: 13px;
+}
+
+.activity-item small {
+  display: block;
+  margin-top: 6px;
+  color: var(--fd-muted-light);
+  font-size: 12px;
+}

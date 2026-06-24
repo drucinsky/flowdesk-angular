@@ -1,0 +1,24 @@
+<section class="widget-card">
+  <div class="widget-header">
+    <div>
+      <h2>Recent activity</h2>
+      <p>Latest updates from your workspace.</p>
+    </div>
+  </div>
+
+  <nz-timeline>
+    @for (activity of activities(); track activity.id) {
+      <nz-timeline-item [nzColor]="getActivityColor(activity.type)">
+        <div class="activity-item">
+          <div class="activity-header">
+            <strong>{{ activity.title }}</strong>
+            <span>{{ activity.time }}</span>
+          </div>
+
+          <p>{{ activity.description }}</p>
+          <small>{{ activity.author }}</small>
+        </div>
+      </nz-timeline-item>
+    }
+  </nz-timeline>
+</section>

@@ -9,7 +9,7 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'cases',
+        redirectTo: 'dashboard',
       },
       {
         path: 'dashboard',
@@ -23,6 +23,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'cases',
+    redirectTo: 'dashboard',
   },
 ];

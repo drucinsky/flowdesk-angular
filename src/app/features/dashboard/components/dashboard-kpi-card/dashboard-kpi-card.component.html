@@ -1,0 +1,15 @@
+<article class="kpi-card" [class]="cardClass()">
+  <div class="kpi-icon">
+    <i nz-icon [nzType]="kpi().icon"></i>
+  </div>
+
+  <div class="min-w-0">
+    <p class="kpi-label">{{ kpi().label }}</p>
+    <strong class="kpi-value">{{ kpi().value }}</strong>
+
+    <p class="kpi-description">
+      <span class="kpi-trend">+{{ kpi().trend }}%</span>
+      {{ kpi().description }}
+    </p>
+  </div>
+</article>
