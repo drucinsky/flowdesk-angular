@@ -1,0 +1,45 @@
+:host {
+  display: block;
+}
+
+.filters-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius-xl);
+  background: var(--fd-surface);
+  box-shadow: var(--fd-shadow-sm);
+}
+
+.search-control {
+  display: flex;
+  min-width: 320px;
+  flex: 1;
+  height: 40px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  border: 1px solid var(--fd-border-strong);
+  border-radius: var(--fd-radius-md);
+  background: var(--fd-surface);
+
+  .anticon {
+    color: var(--fd-muted-light);
+  }
+
+  input {
+    border: 0;
+    box-shadow: none;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}
+
+.filter-select {
+  width: 150px;
+}

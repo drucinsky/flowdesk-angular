@@ -1,18 +1,48 @@
-<section class="page">
-  <div class="page-header">
+<section class="cases-page">
+  <div class="flex items-start justify-between gap-6">
     <div>
-      <h1>Cases</h1>
-      <p>Manage customer cases, SLA risks and support workflow.</p>
+      <h1 class="m-0 text-3xl font-bold tracking-tight text-slate-950">Cases</h1>
+      <p class="mt-2 text-sm text-slate-500">
+        Manage customer cases, SLA risks and support workflow.
+      </p>
     </div>
 
-    <div class="page-actions">
-      <button nz-button>Export</button>
-      <button nz-button nzType="primary">Create case</button>
+    <div class="flex items-center gap-3">
+      <button nz-button type="button">
+        <span nz-icon nzType="export"></span>
+        Export
+      </button>
+
+      <button nz-button nzType="primary" type="button">
+        <span nz-icon nzType="plus"></span>
+        Create case
+      </button>
     </div>
   </div>
 
-  <div class="placeholder-card">
-    <h2>Cases workspace</h2>
-    <p>Next step: filters, KPI cards and cases table.</p>
-  </div>
+  <fd-cases-status-tabs
+    [selectedStatus]="filters().status"
+    (selectedStatusChange)="updateStatus($event)"
+  />
+
+  <fd-cases-filters [filters]="filters()" (filtersChange)="updateFilters($event)" />
+
+  @if (casesResource.isLoading() && !casesData()) {
+    <div
+      class="flex min-h-80 items-center justify-center rounded-2xl border border-slate-200 bg-white"
+    >
+      <nz-spin nzSize="large" />
+    </div>
+  } @else if (casesData(); as data) {
+    <fd-cases-table
+      class="cases-table-wrapper"
+      [cases]="data.cases"
+      [total]="data.total"
+      [pageIndex]="pageIndex()"
+      [pageSize]="pageSize()"
+      [isLoading]="casesResource.isLoading()"
+      (pageIndexChange)="updatePageIndex($event)"
+      (pageSizeChange)="updatePageSize($event)"
+    />
+  }
 </section>
