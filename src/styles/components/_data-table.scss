@@ -1,0 +1,58 @@
+.fd-data-table-card {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius-xl);
+  background: var(--fd-surface);
+  box-shadow: var(--fd-shadow-card);
+}
+
+.fd-data-table {
+  min-height: 0;
+  flex: 1;
+}
+
+/*
+  Globalny wariant dla dużych tabel listowych opartych o ng-zorro.
+  Dzięki temu nie musimy powtarzać ::ng-deep w każdym komponencie tabeli.
+*/
+.fd-data-table,
+.fd-data-table .ant-spin-nested-loading,
+.fd-data-table .ant-spin-container {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.fd-data-table .ant-table {
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.fd-data-table .ant-table-container {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.fd-data-table .ant-table-content {
+  height: 100%;
+  min-height: 0;
+}
+
+.fd-data-table .ant-table-body {
+  min-height: 0;
+  flex: 1;
+  overflow: auto;
+}
+
+.fd-data-table .ant-pagination {
+  flex: 0 0 auto;
+  margin: 16px;
+}

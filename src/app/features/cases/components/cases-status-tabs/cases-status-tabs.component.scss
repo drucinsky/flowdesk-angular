@@ -1,0 +1,38 @@
+:host {
+  display: block;
+}
+
+.status-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.status-tab {
+  display: inline-flex;
+  height: 38px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius-full);
+  background: var(--fd-surface);
+  color: var(--fd-muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.status-tab-active {
+  border-color: var(--fd-primary);
+  background: var(--fd-primary-soft);
+  color: var(--fd-primary);
+}
+
+.status-tab-danger {
+  color: var(--fd-danger);
+}
+
+.status-tab-warning {
+  color: var(--fd-warning);
+}

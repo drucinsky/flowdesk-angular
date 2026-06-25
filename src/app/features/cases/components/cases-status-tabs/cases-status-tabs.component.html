@@ -1,0 +1,18 @@
+<div class="status-tabs">
+  @for (tab of tabs; track tab.label) {
+    <button
+      class="status-tab"
+      [class.status-tab-active]="selectedStatus() === tab.value"
+      [class.status-tab-danger]="tab.danger"
+      [class.status-tab-warning]="tab.warning"
+      type="button"
+      (click)="selectStatus(tab.value)"
+    >
+      <span>{{ tab.label }}</span>
+
+      @if (tab.count) {
+        <nz-badge [nzCount]="tab.count" />
+      }
+    </button>
+  }
+</div>

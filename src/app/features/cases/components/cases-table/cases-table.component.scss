@@ -1,0 +1,33 @@
+:host {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+}
+
+.case-id {
+  color: var(--fd-primary);
+  font-weight: 700;
+}
+
+.customer-cell {
+  display: flex;
+  min-width: 220px;
+  flex-direction: column;
+
+  strong {
+    color: var(--fd-text);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  span {
+    margin-top: 4px;
+    color: var(--fd-muted);
+    font-size: 12px;
+  }
+}
+
+.sla-value {
+  color: var(--fd-danger);
+  font-weight: 700;
+}

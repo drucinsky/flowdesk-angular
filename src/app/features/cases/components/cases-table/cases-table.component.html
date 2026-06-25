@@ -1,0 +1,73 @@
+<section class="fd-data-table-card">
+  <nz-table
+    #casesTable
+    class="fd-data-table"
+    [nzData]="cases()"
+    [nzLoading]="isLoading()"
+    [nzFrontPagination]="false"
+    [nzTotal]="total()"
+    [nzPageIndex]="pageIndex()"
+    [nzPageSize]="pageSize()"
+    [nzShowSizeChanger]="true"
+    [nzPageSizeOptions]="[5, 10, 20]"
+    [nzScroll]="tableScroll"
+    (nzPageIndexChange)="pageIndexChange.emit($event)"
+    (nzPageSizeChange)="pageSizeChange.emit($event)"
+  >
+    <thead>
+      <tr>
+        <th>Case ID</th>
+        <th>Customer</th>
+        <th>Category</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>SLA</th>
+        <th>Assignee</th>
+        <th>Updated</th>
+        <th nzWidth="72px">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (caseItem of casesTable.data; track caseItem.id) {
+        <tr>
+          <td>
+            <strong class="case-id">{{ caseItem.id }}</strong>
+          </td>
+
+          <td>
+            <div class="customer-cell">
+              <strong>{{ caseItem.customer }}</strong>
+              <span>{{ caseItem.title }}</span>
+            </div>
+          </td>
+
+          <td>{{ getCategoryLabel(caseItem.category) }}</td>
+
+          <td>
+            <nz-tag [nzColor]="getPriorityConfig(caseItem.priority).color">
+              {{ getPriorityConfig(caseItem.priority).label }}
+            </nz-tag>
+          </td>
+
+          <td>
+            <nz-tag [nzColor]="getStatusConfig(caseItem.status).color">
+              {{ getStatusConfig(caseItem.status).label }}
+            </nz-tag>
+          </td>
+
+          <td>
+            <span class="sla-value">{{ caseItem.sla }}</span>
+          </td>
+
+          <td>{{ caseItem.assignee }}</td>
+          <td>{{ caseItem.updatedAt }}</td>
+
+          <td>
+            <button nz-button nzType="text" type="button">•••</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </nz-table>
+</section>
