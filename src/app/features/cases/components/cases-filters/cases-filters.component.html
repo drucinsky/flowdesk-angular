@@ -1,22 +1,10 @@
 <section class="filters-card">
   <div class="search-control">
     <span nz-icon nzType="search"></span>
-    <input
-      nz-input
-      type="text"
-      placeholder="Search cases by ID, title, customer..."
-      [ngModel]="filters().search"
-      (ngModelChange)="onSearchChange($event)"
-    />
+    <input nz-input type="text" placeholder="Search cases by ID, title, customer..." [formControl]="form.controls.search" />
   </div>
 
-  <nz-select
-    class="filter-select"
-    nzAllowClear
-    nzPlaceHolder="Status"
-    [ngModel]="filters().status"
-    (ngModelChange)="onStatusChange($event)"
-  >
+  <nz-select class="filter-select" nzAllowClear nzPlaceHolder="Status" [formControl]="form.controls.status">
     <nz-option [nzValue]="caseStatus.NEW" nzLabel="New" />
     <nz-option [nzValue]="caseStatus.IN_PROGRESS" nzLabel="In progress" />
     <nz-option [nzValue]="caseStatus.WAITING" nzLabel="Waiting" />
@@ -24,26 +12,14 @@
     <nz-option [nzValue]="caseStatus.CLOSED" nzLabel="Closed" />
   </nz-select>
 
-  <nz-select
-    class="filter-select"
-    nzAllowClear
-    nzPlaceHolder="Priority"
-    [ngModel]="filters().priority"
-    (ngModelChange)="onPriorityChange($event)"
-  >
+  <nz-select class="filter-select" nzAllowClear nzPlaceHolder="Priority" [formControl]="form.controls.priority">
     <nz-option [nzValue]="casePriority.LOW" nzLabel="Low" />
     <nz-option [nzValue]="casePriority.MEDIUM" nzLabel="Medium" />
     <nz-option [nzValue]="casePriority.HIGH" nzLabel="High" />
     <nz-option [nzValue]="casePriority.CRITICAL" nzLabel="Critical" />
   </nz-select>
 
-  <nz-select
-    class="filter-select"
-    nzAllowClear
-    nzPlaceHolder="Assignee"
-    [ngModel]="filters().assignee"
-    (ngModelChange)="onAssigneeChange($event)"
-  >
+  <nz-select class="filter-select" nzAllowClear nzPlaceHolder="Assignee" [formControl]="form.controls.assignee">
     <nz-option nzValue="Sarah Lee" nzLabel="Sarah Lee" />
     <nz-option nzValue="Michael Chen" nzLabel="Michael Chen" />
     <nz-option nzValue="Emily Nguyen" nzLabel="Emily Nguyen" />
@@ -51,7 +27,9 @@
   </nz-select>
 
   <button nz-button type="button">
-    <span nz-icon nzType="filter"></span>
+    <i nz-icon nzType="filter"></i>
     More filters
   </button>
+
+  <button nz-button type="button" (click)="resetFilters()">Reset</button>
 </section>

@@ -1,13 +1,17 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 
+import { TableDataFacadeService } from '../../../../shared/table-state/services/table-data-facade.service';
+import type { ICaseFilters } from '../../models/case-filters.interface';
+import type { CaseSortKey } from '../../models/case-sort-key.type';
+import type { ICase } from '../../models/case.interface';
 import { CaseCategory } from '../../models/case-category.enum';
 import { CasePriority } from '../../models/case-priority.enum';
 import { CaseStatus } from '../../models/case-status.enum';
-import type { ICase } from '../../models/case.interface';
-import { DEFAULT_TABLE_SCROLL } from '../../../../shared/config/table-scroll.config';
+import { TableStateDirective } from '../../../../shared/table-state/directives/table-state.directive';
+import { TableSortDirective } from '../../../../shared/table-state/directives/table-sort.directive';
 
 interface ITagConfig {
   readonly label: string;
@@ -66,22 +70,13 @@ const STATUS_TAG_CONFIG: Record<CaseStatus, ITagConfig> = {
 
 @Component({
   selector: 'fd-cases-table',
-  imports: [NzButtonModule, NzTableModule, NzTagModule],
+  imports: [NzButtonModule, NzTableModule, NzTagModule, TableStateDirective, TableSortDirective],
   templateUrl: './cases-table.component.html',
   styleUrl: './cases-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CasesTableComponent {
-  readonly cases = input.required<readonly ICase[]>();
-  readonly total = input.required<number>();
-  readonly pageIndex = input.required<number>();
-  readonly pageSize = input.required<number>();
-  readonly isLoading = input(false);
-
-  readonly pageIndexChange = output<number>();
-  readonly pageSizeChange = output<number>();
-
-  protected readonly tableScroll = DEFAULT_TABLE_SCROLL;
+  protected readonly table = inject<TableDataFacadeService<ICase, ICaseFilters, CaseSortKey>>(TableDataFacadeService);
 
   protected getCategoryLabel(category: CaseCategory): string {
     return CATEGORY_LABELS[category];
