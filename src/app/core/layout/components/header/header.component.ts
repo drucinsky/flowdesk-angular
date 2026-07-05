@@ -9,15 +9,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 
 @Component({
   selector: 'fd-header',
-  imports: [
-    NzAvatarModule,
-    NzBadgeModule,
-    NzButtonModule,
-    NzDropdownModule,
-    NzIconModule,
-    NzInputModule,
-    NzMenuModule,
-  ],
+  imports: [NzAvatarModule, NzBadgeModule, NzButtonModule, NzDropdownModule, NzIconModule, NzInputModule, NzMenuModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
