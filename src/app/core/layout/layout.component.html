@@ -1,12 +1,5 @@
 <nz-layout class="app-layout">
-  <nz-sider
-    class="app-sidebar"
-    nzCollapsible
-    [nzCollapsed]="isCollapsed()"
-    [nzTrigger]="null"
-    [nzWidth]="260"
-    [nzCollapsedWidth]="84"
-  >
+  <nz-sider class="app-sidebar" nzCollapsible [nzCollapsed]="isCollapsed()" [nzTrigger]="null" [nzWidth]="260" [nzCollapsedWidth]="84">
     <fd-sidebar [isCollapsed]="isCollapsed()" (collapseToggle)="toggleSidebar()" />
   </nz-sider>
 

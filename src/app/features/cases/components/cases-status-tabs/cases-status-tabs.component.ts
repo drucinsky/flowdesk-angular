@@ -33,13 +33,13 @@ export class CasesStatusTabsComponent {
     {
       label: 'SLA risk',
       value: CaseStatus.SLA_RISK,
-      count: 8,
+      count: 5,
       danger: true,
     },
     {
       label: 'Waiting',
       value: CaseStatus.WAITING,
-      count: 12,
+      count: 9,
       warning: true,
     },
     {

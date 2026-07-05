@@ -23,6 +23,7 @@
 .fd-data-table .ant-spin-nested-loading,
 .fd-data-table .ant-spin-container {
   display: flex;
+  height: 100%;
   min-height: 0;
   flex: 1;
   flex-direction: column;
@@ -55,4 +56,37 @@
 .fd-data-table .ant-pagination {
   flex: 0 0 auto;
   margin: 16px;
+}
+
+.fd-sortable-th {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.fd-sortable-th::after {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  color: var(--fd-muted-light);
+  content: '↕';
+  font-size: 12px;
+  opacity: 0.35;
+  transform: translateY(-50%);
+}
+
+.fd-sortable-th:hover::after {
+  opacity: 0.75;
+}
+
+.fd-sortable-th.fd-sort-asc::after {
+  color: var(--fd-primary);
+  content: '↑';
+  opacity: 1;
+}
+
+.fd-sortable-th.fd-sort-desc::after {
+  color: var(--fd-primary);
+  content: '↓';
+  opacity: 1;
 }

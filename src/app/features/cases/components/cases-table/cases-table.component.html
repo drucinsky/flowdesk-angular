@@ -2,29 +2,25 @@
   <nz-table
     #casesTable
     class="fd-data-table"
-    [nzData]="cases()"
-    [nzLoading]="isLoading()"
-    [nzFrontPagination]="false"
-    [nzTotal]="total()"
-    [nzPageIndex]="pageIndex()"
-    [nzPageSize]="pageSize()"
-    [nzShowSizeChanger]="true"
-    [nzPageSizeOptions]="[5, 10, 20]"
-    [nzScroll]="tableScroll"
-    (nzPageIndexChange)="pageIndexChange.emit($event)"
-    (nzPageSizeChange)="pageSizeChange.emit($event)"
+    fdTableState
+    [nzData]="table.items()"
+    [nzLoading]="table.isLoading()"
+    [nzTotal]="table.total()"
+    [nzPageIndex]="table.pageIndex()"
+    [nzPageSize]="table.pageSize()"
+    [nzScroll]="table.scroll()"
   >
     <thead>
       <tr>
-        <th>Case ID</th>
-        <th>Customer</th>
-        <th>Category</th>
-        <th>Priority</th>
-        <th>Status</th>
-        <th>SLA</th>
-        <th>Assignee</th>
-        <th>Updated</th>
-        <th nzWidth="72px">Actions</th>
+        <th [nzWidth]="'100px'" [fdTableSort]="'id'">Case ID</th>
+        <th [nzWidth]="'260px'" [fdTableSort]="'customer'">Customer</th>
+        <th [nzWidth]="'180px'" [fdTableSort]="'category'">Category</th>
+        <th [nzWidth]="'130px'" [fdTableSort]="'priority'">Priority</th>
+        <th [nzWidth]="'150px'" [fdTableSort]="'status'">Status</th>
+        <th [nzWidth]="'120px'" [fdTableSort]="'sla'">SLA</th>
+        <th [nzWidth]="'160px'" [fdTableSort]="'assignee'">Assignee</th>
+        <th [nzWidth]="'210px'" [fdTableSort]="'updatedAt'">Updated</th>
+        <th [nzWidth]="'96px'" class="text-center whitespace-nowrap">Actions</th>
       </tr>
     </thead>
 
@@ -36,23 +32,28 @@
           </td>
 
           <td>
-            <div class="customer-cell">
-              <strong>{{ caseItem.customer }}</strong>
-              <span>{{ caseItem.title }}</span>
+            <div class="flex min-w-0 flex-col">
+              <strong class="block truncate text-sm font-bold text-slate-950">
+                {{ caseItem.customer }}
+              </strong>
+
+              <span class="mt-1 block truncate text-xs text-slate-500">
+                {{ caseItem.title }}
+              </span>
             </div>
           </td>
 
-          <td>{{ getCategoryLabel(caseItem.category) }}</td>
+          <td>{{ caseItem.categoryLabel }}</td>
 
           <td>
-            <nz-tag [nzColor]="getPriorityConfig(caseItem.priority).color">
-              {{ getPriorityConfig(caseItem.priority).label }}
+            <nz-tag [nzColor]="caseItem.priority.color">
+              {{ caseItem.priority.label }}
             </nz-tag>
           </td>
 
           <td>
-            <nz-tag [nzColor]="getStatusConfig(caseItem.status).color">
-              {{ getStatusConfig(caseItem.status).label }}
+            <nz-tag [nzColor]="caseItem.status.color">
+              {{ caseItem.status.label }}
             </nz-tag>
           </td>
 
@@ -63,7 +64,7 @@
           <td>{{ caseItem.assignee }}</td>
           <td>{{ caseItem.updatedAt }}</td>
 
-          <td>
+          <td class="text-center whitespace-nowrap">
             <button nz-button nzType="text" type="button">•••</button>
           </td>
         </tr>

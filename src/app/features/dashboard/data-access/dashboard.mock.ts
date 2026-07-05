@@ -7,13 +7,7 @@ import type { IDashboardData } from '../models/dashboard-data.interface';
 import { DashboardKpiType } from '../models/dashboard-kpi-type.enum';
 import type { IDashboardKpi } from '../models/dashboard-kpi.interface';
 
-const CUSTOMERS = [
-  'Acme Corporation',
-  'Globex Inc.',
-  'Soylent Corp.',
-  'Umbrella Corp.',
-  'Stark Industries',
-];
+const CUSTOMERS = ['Acme Corporation', 'Globex Inc.', 'Soylent Corp.', 'Umbrella Corp.', 'Stark Industries'];
 
 const ASSIGNEES = ['Sarah Lee', 'Michael Chen', 'Emily Nguyen', 'David Kim'];
 
@@ -77,20 +71,12 @@ function generateKpis(): readonly IDashboardKpi[] {
 
 function generatePriorityCases(): readonly IDashboardCase[] {
   return Array.from({ length: 4 }, (_, index) => {
-    const priority = getRandomItem([
-      DashboardCasePriority.MEDIUM,
-      DashboardCasePriority.HIGH,
-      DashboardCasePriority.CRITICAL,
-    ]);
+    const priority = getRandomItem([DashboardCasePriority.MEDIUM, DashboardCasePriority.HIGH, DashboardCasePriority.CRITICAL]);
 
     const status =
       priority === DashboardCasePriority.CRITICAL
         ? DashboardCaseStatus.SLA_RISK
-        : getRandomItem([
-            DashboardCaseStatus.IN_PROGRESS,
-            DashboardCaseStatus.WAITING,
-            DashboardCaseStatus.NEW,
-          ]);
+        : getRandomItem([DashboardCaseStatus.IN_PROGRESS, DashboardCaseStatus.WAITING, DashboardCaseStatus.NEW]);
 
     return {
       id: `#${12401 - index}`,

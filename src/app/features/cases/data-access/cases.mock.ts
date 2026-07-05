@@ -2,7 +2,6 @@ import { CaseCategory } from '../models/case-category.enum';
 import { CasePriority } from '../models/case-priority.enum';
 import { CaseStatus } from '../models/case-status.enum';
 import type { ICase } from '../models/case.interface';
-import type { ICasesData } from '../models/cases-data.interface';
 
 const CASES: readonly ICase[] = [
   {
@@ -403,7 +402,4 @@ const CASES: readonly ICase[] = [
   },
 ];
 
-export const CASES_MOCK_DATA: ICasesData = {
-  cases: CASES,
-  total: CASES.length,
-};
+export const CASES_MOCK_DATA: readonly ICase[] = CASES;
