@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { delay, of, type Observable } from 'rxjs';
+import { delay, of, throwError, type Observable } from 'rxjs';
 
 import { CASES_MOCK_DATA } from './cases.mock';
 import { TableSortDirection } from '../../../shared/table-state/models/table-sort.interface';
@@ -8,6 +8,7 @@ import type { ITableQuery } from '../../../shared/table-state/models/table-query
 import type { CaseSortKey } from '../models/case-sort-key.type';
 import type { ICaseFilters } from '../models/case-filters.interface';
 import type { ICase } from '../models/case.interface';
+import { CaseStatus } from '../models/case-status.enum';
 
 type SortValue = string | number;
 
@@ -33,8 +34,10 @@ const SORT_VALUE_GETTERS: Record<CaseSortKey, (caseItem: ICase) => SortValue> = 
   providedIn: 'root',
 })
 export class CasesService {
+  private _cases: ICase[] = [...CASES_MOCK_DATA];
+
   getCasesData(query: ITableQuery<ICaseFilters, CaseSortKey>): Observable<ITableDataResult<ICase>> {
-    const filteredCases = this._filterCases(CASES_MOCK_DATA, query);
+    const filteredCases = this._filterCases(this._cases, query);
     const sortedCases = this._sortCases(filteredCases, query);
     const paginatedCases = this._paginateCases(sortedCases, query);
 
@@ -42,6 +45,25 @@ export class CasesService {
       items: paginatedCases,
       total: filteredCases.length,
     }).pipe(delay(350));
+  }
+
+  closeCase(caseId: string, _reason: string, _notifyClient: boolean): Observable<ICase> {
+    const caseItem = this._cases.find((item) => item.id === caseId);
+
+    if (!caseItem) {
+      return throwError(() => new Error(`Case ${caseId} was not found.`));
+    }
+
+    const closedCase: ICase = {
+      ...caseItem,
+      status: CaseStatus.CLOSED,
+      sla: 'Resolved',
+      updatedAt: 'Just now',
+    };
+
+    this._cases = this._cases.map((item) => (item.id === caseId ? closedCase : item));
+
+    return of(closedCase).pipe(delay(500));
   }
 
   private _filterCases(cases: readonly ICase[], query: ITableQuery<ICaseFilters, CaseSortKey>): readonly ICase[] {

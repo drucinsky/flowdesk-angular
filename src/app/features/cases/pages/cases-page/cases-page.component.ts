@@ -14,6 +14,8 @@ import { TableSortDirection } from '../../../../shared/table-state/models/table-
 import { provideTableState } from '../../../../shared/table-state/providers/provide-table-state';
 import { TableDataFacadeService } from '../../../../shared/table-state/services/table-data-facade.service';
 import type { ICaseTableRow } from '../../models/case-table-row.interface';
+import { CloseCaseModalService } from '../../modals/close-case-modal';
+import { type ICaseTableActionEvent } from '../../models/case-table-action-event.interface';
 
 @Component({
   selector: 'fd-cases-page',
@@ -36,10 +38,33 @@ import type { ICaseTableRow } from '../../models/case-table-row.interface';
 })
 export class CasesPageComponent {
   protected readonly table = inject<TableDataFacadeService<ICaseTableRow, ICaseFilters, CaseSortKey>>(TableDataFacadeService);
+  private readonly _closeCaseModal = inject(CloseCaseModalService);
 
   protected updateStatus(status: CaseStatus | null): void {
     this.table.updateFilters({
       status,
     });
+  }
+
+  protected handleCaseTableAction(event: ICaseTableActionEvent): void {
+    if (event.action === 'close') {
+      this._openCloseCaseModal(event.item);
+    }
+  }
+
+  private _openCloseCaseModal(item: ICaseTableRow): void {
+    this._closeCaseModal
+      .open({
+        caseId: item.id,
+        caseNumber: item.id,
+        currentStatus: item.statusValue,
+      })
+      .subscribe((result) => {
+        if (!result?.closed) {
+          return;
+        }
+
+        this.table.refresh();
+      });
   }
 }

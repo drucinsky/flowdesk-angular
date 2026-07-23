@@ -1,0 +1,50 @@
+.close-case-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.close-case-modal__description {
+  margin: 0;
+  color: var(--fd-text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.close-case-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.close-case-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.close-case-modal__label {
+  color: var(--fd-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.close-case-modal__error {
+  margin: -6px 0 0;
+  color: var(--fd-danger);
+  font-size: 12px;
+}
+
+.close-case-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.close-case-modal__checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--fd-text-secondary);
+  font-size: 14px;
+}

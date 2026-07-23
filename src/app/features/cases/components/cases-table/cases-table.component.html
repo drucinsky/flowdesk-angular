@@ -65,7 +65,15 @@
           <td>{{ caseItem.updatedAt }}</td>
 
           <td class="text-center whitespace-nowrap">
-            <button nz-button nzType="text" type="button">•••</button>
+            <button
+              nz-button
+              nzType="link"
+              type="button"
+              [disabled]="caseItem.statusValue === caseStatus.CLOSED"
+              (click)="closeCase(caseItem)"
+            >
+              Close
+            </button>
           </td>
         </tr>
       }
