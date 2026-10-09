@@ -1,7 +1,7 @@
-import { Directive, computed, inject, input } from '@angular/core';
+import { Directive, computed, input } from '@angular/core';
 
 import { TableSortDirection } from '../models/table-sort.interface';
-import { TableDataFacadeService } from '../services/table-data-facade.service';
+import { injectTableState } from '../table-state.feature';
 
 @Directive({
   selector: 'th[fdTableSort]',
@@ -19,7 +19,7 @@ import { TableDataFacadeService } from '../services/table-data-facade.service';
 export class TableSortDirective<TFilters extends object, TSortKey extends string = string> {
   readonly fdTableSort = input.required<TSortKey>();
 
-  private readonly _tableFacade = inject(TableDataFacadeService<unknown, TFilters, TSortKey>);
+  private readonly _tableFacade = injectTableState<unknown, TFilters, TSortKey>();
 
   private readonly _isActive = computed(() => this._tableFacade.sort()?.key === this.fdTableSort());
   protected readonly isAscending = computed(() => this._isActive() && this._tableFacade.sort()?.direction === TableSortDirection.ASC);

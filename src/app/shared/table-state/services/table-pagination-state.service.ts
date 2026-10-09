@@ -1,15 +1,17 @@
 import { Injectable, effect, inject, signal } from '@angular/core';
 
-import { TABLE_STATE_CONFIG } from '../tokens/table-state.tokens';
+import { injectTableConfig } from '../table-state-config.feature';
 import { TableStorageService } from './table-storage.service';
 
 @Injectable()
 export class TablePaginationStateService {
-  private readonly _config = inject(TABLE_STATE_CONFIG);
+  private readonly _config = injectTableConfig();
   private readonly _storage = inject(TableStorageService);
 
-  readonly pageIndex = signal(this._storage.getFromSession('pageIndex', 1));
-  readonly pageSize = signal(this._storage.getFromLocal('pageSize', this._config.defaultPageSize));
+  readonly pageIndex = signal(positiveIntegerOr(this._storage.getFromSession<unknown>('pageIndex', 1), 1));
+  readonly pageSize = signal(
+    positiveIntegerOr(this._storage.getFromLocal<unknown>('pageSize', this._config.defaultPageSize), this._config.defaultPageSize),
+  );
 
   constructor() {
     effect(() => {
@@ -33,4 +35,8 @@ export class TablePaginationStateService {
   resetPageIndex(): void {
     this.pageIndex.set(1);
   }
+}
+
+function positiveIntegerOr(value: unknown, fallback: number): number {
+  return typeof value === 'number' && Number.isInteger(value) && value > 0 ? value : fallback;
 }

@@ -2,14 +2,14 @@ import { ChangeDetectorRef, Directive, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 
-import { TableDataFacadeService } from '../services/table-data-facade.service';
+import { injectTableState } from '../table-state.feature';
 
 @Directive({
   selector: 'nz-table[fdTableState]',
 })
 export class TableStateDirective<TRow, TFilters extends object, TSortKey extends string = string> {
   private readonly _table = inject(NzTableComponent) as NzTableComponent<TRow>;
-  private readonly _tableFacade = inject(TableDataFacadeService<TRow, TFilters, TSortKey>);
+  private readonly _tableFacade = injectTableState<TRow, TFilters, TSortKey>();
   private readonly _changeDetectorRef = inject(ChangeDetectorRef);
 
   constructor() {
