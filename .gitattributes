@@ -1,0 +1,5 @@
+# Keep LF in the repository and in working copies on every OS (overrides core.autocrlf)
+* text=auto eol=lf
+
+*.ico binary
+*.zip binary

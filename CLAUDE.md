@@ -69,6 +69,7 @@ paths:
 - **Wait for Approval**: Do NOT start implementing until the user approves the plan. The user may accept it, change it, or propose alternatives — incorporate their feedback and, if the plan changes significantly, present the updated version.
 - **Propose Alternatives**: Where there are meaningful trade-offs, present the recommended option together with alternatives instead of silently choosing one.
 - **Trivial Changes**: For trivial, unambiguous changes (e.g., a typo, a one-line fix), a short statement of intent is enough.
+- **Review Before Commit**: NEVER run `git commit` (or push / open a PR) before the user has reviewed the diff and explicitly approved it. After implementing, stop with changes uncommitted in the working tree, summarize what changed, and wait for approval. Approval of a plan is NOT approval to commit.
 
 ## 10. Advanced Angular Features & Performance
 
