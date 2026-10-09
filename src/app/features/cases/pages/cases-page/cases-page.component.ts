@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
@@ -34,7 +34,6 @@ import { type ICaseTableActionEvent } from '../../models/case-table-action-event
   ],
   templateUrl: './cases-page.component.html',
   styleUrl: './cases-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CasesPageComponent {
   protected readonly table = inject<TableDataFacadeService<ICaseTableRow, ICaseFilters, CaseSortKey>>(TableDataFacadeService);

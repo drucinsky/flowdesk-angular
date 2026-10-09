@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -22,7 +22,6 @@ type CasesFiltersForm = FormGroup<{
   imports: [ReactiveFormsModule, NzButtonModule, NzIconModule, NzInputModule, NzSelectModule],
   templateUrl: './cases-filters.component.html',
   styleUrl: './cases-filters.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CasesFiltersComponent extends BaseTableFiltersComponent<ICaseFilters, CasesFiltersForm> {
   protected readonly caseStatus = CaseStatus;

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject } from '@angular/core';
+import { Component, DestroyRef, effect, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CloseCaseModalFacade } from './close-case-modal.facade';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,7 +14,6 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
   templateUrl: './close-case-modal.component.html',
   styleUrl: './close-case-modal.component.scss',
   providers: [CloseCaseModalFacade],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CloseCaseModalComponent {
   private readonly _modalRef = inject<NzModalRef<unknown, ICloseCaseModalResult>>(NzModalRef);

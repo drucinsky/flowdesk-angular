@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 
@@ -54,7 +54,6 @@ const STATUS_TAG_CONFIG: Record<DashboardCaseStatus, ITagConfig> = {
   imports: [NzButtonModule, NzTagModule],
   templateUrl: './priority-cases-widget.component.html',
   styleUrl: './priority-cases-widget.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PriorityCasesWidgetComponent {
   readonly cases = input.required<readonly IDashboardCase[]>();

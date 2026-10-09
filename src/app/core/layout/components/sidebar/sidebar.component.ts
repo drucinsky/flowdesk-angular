@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -10,7 +10,6 @@ import { APP_NAVIGATION_ITEMS } from '../../config/app-navigation.config';
   imports: [RouterLink, RouterLinkActive, NzButtonModule, NzIconModule, NzMenuModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
   readonly isCollapsed = input.required<boolean>();

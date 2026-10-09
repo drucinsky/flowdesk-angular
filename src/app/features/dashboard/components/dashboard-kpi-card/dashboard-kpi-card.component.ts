@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 import type { IDashboardKpi } from '../../models/dashboard-kpi.interface';
@@ -9,7 +9,6 @@ import { DashboardKpiType } from '../../models/dashboard-kpi-type.enum';
   imports: [NzIconModule],
   templateUrl: './dashboard-kpi-card.component.html',
   styleUrl: './dashboard-kpi-card.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardKpiCardComponent {
   readonly kpi = input.required<IDashboardKpi>();
