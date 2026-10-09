@@ -13,7 +13,11 @@ export class AppModalService {
   private readonly _registry = inject(ModalRegistryService);
   private readonly _conflicts = inject(ModalConflictService);
 
-  open<TData, TResult>(definition: IAppModalDefinition<TData, TResult>, data: TData): Observable<TResult | undefined> {
+  open<TData, TResult>(
+    definition: IAppModalDefinition<TData, TResult>,
+    data: TData,
+    options?: { readonly title?: string },
+  ): Observable<TResult | undefined> {
     const blockingKey = this._conflicts.getBlockingKey(definition.key, definition.dependencies);
 
     if (blockingKey) {
@@ -24,7 +28,7 @@ export class AppModalService {
     const ref = this._nzModal.create<unknown, TData, TResult>({
       nzContent: definition.component,
       nzData: data,
-      nzTitle: definition.title,
+      nzTitle: options?.title ?? definition.title,
       nzWidth: definition.width ?? 720,
       nzClassName: definition.className,
       nzClosable: definition.closable ?? true,

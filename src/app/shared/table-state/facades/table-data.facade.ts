@@ -1,4 +1,4 @@
-import { Injectable, computed, inject, linkedSignal } from '@angular/core';
+import { Injectable, computed, effect, inject, linkedSignal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 import type { ITableDataResult } from '../models/table-data-result.interface';
@@ -48,6 +48,19 @@ export class TableDataFacade<TRow, TFilters extends object, TSortKey extends str
   readonly total = computed(() => this._lastResult()?.total ?? 0);
   readonly isLoading = this._resource.isLoading;
   readonly isInitialLoading = computed(() => this._resource.isLoading() && !this._lastResult());
+
+  // After the data shrinks (e.g. the last page was emptied by a delete) the current page may no longer exist.
+  private readonly _clampPageIndex = effect(() => {
+    if (this._resource.isLoading() || !this._resource.hasValue()) {
+      return;
+    }
+
+    const lastPageIndex = Math.max(1, Math.ceil(this.total() / this.pageSize()));
+
+    if (this.pageIndex() > lastPageIndex) {
+      this._paginationState.setPageIndex(lastPageIndex);
+    }
+  });
 
   updateFilters(filters: Partial<TFilters>): void {
     this._filtersState.updateFilters(filters);

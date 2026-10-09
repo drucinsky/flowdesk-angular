@@ -82,6 +82,18 @@ export class TableSelectionState<TRow> {
     });
   }
 
+  deselect(rows: readonly TRow[]): void {
+    this._selectedRows.update((current) => {
+      const next = new Map(current);
+
+      for (const row of rows) {
+        next.delete(this._options.rowKey(row));
+      }
+
+      return next;
+    });
+  }
+
   clear(): void {
     this._selectedRows.set(new Map());
   }

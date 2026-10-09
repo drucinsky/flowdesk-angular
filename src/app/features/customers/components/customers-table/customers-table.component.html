@@ -120,5 +120,10 @@
     </tbody>
   </nz-table>
 
-  <fd-table-selection-bar />
+  <fd-table-selection-bar>
+    <button nz-button nzDanger type="button" [nzLoading]="facade.isDeleting()" (click)="facade.deleteSelected()">
+      <i nz-icon nzType="delete"></i>
+      Delete
+    </button>
+  </fd-table-selection-bar>
 </section>

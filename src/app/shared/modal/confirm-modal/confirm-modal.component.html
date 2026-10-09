@@ -1,0 +1,10 @@
+<section class="flex flex-col gap-6">
+  <p class="m-0 text-sm text-slate-600">{{ data.message }}</p>
+
+  <footer class="flex justify-end gap-3">
+    <button nz-button type="button" (click)="cancel()">{{ data.cancelLabel ?? 'Cancel' }}</button>
+    <button nz-button nzType="primary" type="button" [nzDanger]="data.danger ?? false" (click)="confirm()">
+      {{ data.confirmLabel }}
+    </button>
+  </footer>
+</section>

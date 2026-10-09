@@ -4,6 +4,7 @@ import { delay, of, throwError, type Observable } from 'rxjs';
 import type { ITableDataResult } from '../../../shared/table-state/models/table-data-result.interface';
 import type { ITableQuery } from '../../../shared/table-state/models/table-query.interface';
 import { type TableSortValue, paginateTableItems, sortTableItems } from '../../../shared/table-state/utils/mock-table-query.util';
+import type { ICustomersDeleteResult } from '../models/customers-delete-result.interface';
 import type { ICustomerDetails } from '../models/customer-details.interface';
 import type { ICustomerFilters } from '../models/customer-filters.interface';
 import type { CustomerSortKey } from '../models/customer-sort-key.type';
@@ -28,8 +29,10 @@ const SORT_VALUE_GETTERS: Record<CustomerSortKey, (customer: ICustomer) => Table
  */
 @Service()
 export class CustomersService {
+  private _customers: readonly ICustomer[] = CUSTOMERS_MOCK_DATA;
+
   getCustomersData(query: ITableQuery<ICustomerFilters, CustomerSortKey>): Observable<ITableDataResult<ICustomer>> {
-    const filteredCustomers = this._filterCustomers(CUSTOMERS_MOCK_DATA, query.filters);
+    const filteredCustomers = this._filterCustomers(this._customers, query.filters);
     const sortedCustomers = sortTableItems(filteredCustomers, query.sort, SORT_VALUE_GETTERS);
     const paginatedCustomers = paginateTableItems(sortedCustomers, query.pageIndex, query.pageSize);
 
@@ -40,13 +43,37 @@ export class CustomersService {
   }
 
   getCustomerDetails(customerId: string): Observable<ICustomerDetails> {
-    const customer = CUSTOMERS_MOCK_DATA.find((item) => item.id === customerId);
+    const customer = this._customers.find((item) => item.id === customerId);
 
     if (!customer) {
       return throwError(() => new Error(`Customer ${customerId} was not found.`));
     }
 
     return of(createCustomerDetails(customer)).pipe(delay(400));
+  }
+
+  /**
+   * Mocked bulk delete. A customer with open cases cannot be deleted, so partial failures are part of the contract.
+   */
+  deleteCustomers(customerIds: readonly string[]): Observable<ICustomersDeleteResult> {
+    const deletedIds: string[] = [];
+    const failed: { id: string; reason: string }[] = [];
+
+    for (const id of customerIds) {
+      const customer = this._customers.find((item) => item.id === id);
+
+      if (!customer) {
+        failed.push({ id, reason: 'Customer was not found.' });
+      } else if (customer.openCases > 0) {
+        failed.push({ id, reason: 'Customer has open cases.' });
+      } else {
+        deletedIds.push(id);
+      }
+    }
+
+    this._customers = this._customers.filter((customer) => !deletedIds.includes(customer.id));
+
+    return of({ deletedIds, failed }).pipe(delay(600));
   }
 
   private _filterCustomers(customers: readonly ICustomer[], filters: ICustomerFilters): readonly ICustomer[] {
