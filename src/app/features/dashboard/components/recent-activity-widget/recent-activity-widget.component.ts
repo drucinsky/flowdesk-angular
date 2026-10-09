@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 
 import { DashboardActivityType } from '../../models/dashboard-activity-type.enum';
@@ -16,7 +16,6 @@ const ACTIVITY_COLORS: Record<DashboardActivityType, string> = {
   imports: [NzTimelineModule],
   templateUrl: './recent-activity-widget.component.html',
   styleUrl: './recent-activity-widget.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecentActivityWidgetComponent {
   readonly activities = input.required<readonly IDashboardActivity[]>();

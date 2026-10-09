@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { delay, of, throwError, type Observable } from 'rxjs';
 
 import { CASES_MOCK_DATA } from './cases.mock';
@@ -30,9 +30,7 @@ const SORT_VALUE_GETTERS: Record<CaseSortKey, (caseItem: ICase) => SortValue> = 
  * does not use a real backend yet. With a real API, this service would only send the
  * table query to the backend and return the paginated response.
  */
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class CasesService {
   private _cases: ICase[] = [...CASES_MOCK_DATA];
 

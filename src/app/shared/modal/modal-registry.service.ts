@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import type { NzModalRef } from 'ng-zorro-antd/modal';
 import { take } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class ModalRegistryService {
   private readonly _refs = new Map<string, NzModalRef>();
 

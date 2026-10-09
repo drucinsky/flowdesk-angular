@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, model } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 
 import { CaseStatus } from '../../models/case-status.enum';
@@ -16,7 +16,6 @@ interface IStatusTab {
   imports: [NzBadgeModule],
   templateUrl: './cases-status-tabs.component.html',
   styleUrl: './cases-status-tabs.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CasesStatusTabsComponent {
   readonly selectedStatus = model<CaseStatus | null>(null);

@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { type Observable, EMPTY } from 'rxjs';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -6,7 +6,7 @@ import type { IAppModalDefinition } from './modal.definition';
 import { ModalConflictService } from './modal-conflict.service';
 import { ModalRegistryService } from './modal-registry.service';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class AppModalService {
   private readonly _nzModal = inject(NzModalService);
   private readonly _message = inject(NzMessageService);

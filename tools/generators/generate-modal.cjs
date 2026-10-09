@@ -81,16 +81,14 @@ writeFile(
   targetDir,
   `${modalName}.service.ts`,
   `
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { type Observable } from 'rxjs';
 
 import { AppModalService } from '../../../../shared/modal/app-modal.service';
 import { ${modalConstName} } from './${modalName}.definition';
 import { type I${pascalName}Data, type I${pascalName}Result } from './${modalName}.types';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class ${pascalName}Service {
   private readonly _modal = inject(AppModalService);
 
@@ -118,7 +116,7 @@ writeFile(
   targetDir,
   `${modalName}.component.ts`,
   `
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
@@ -131,7 +129,6 @@ import { type I${pascalName}Data, type I${pascalName}Result } from './${modalNam
   templateUrl: './${modalName}.component.html',
   styleUrl: './${modalName}.component.scss',
   providers: [${pascalName}Facade],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ${pascalName}Component {
   private readonly _modalRef = inject<NzModalRef<unknown, I${pascalName}Result>>(NzModalRef);

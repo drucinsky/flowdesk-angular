@@ -1,7 +1,7 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { ModalRegistryService } from './modal-registry.service';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class ModalConflictService {
   private readonly _registry = inject(ModalRegistryService);
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
@@ -16,7 +16,6 @@ import { CaseStatus } from '../../models/case-status.enum';
   imports: [NzButtonModule, NzTableModule, NzTagModule, TableStateDirective, TableSortDirective],
   templateUrl: './cases-table.component.html',
   styleUrl: './cases-table.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CasesTableComponent {
   protected readonly table = inject<TableDataFacadeService<ICaseTableRow, ICaseFilters, CaseSortKey>>(TableDataFacadeService);
