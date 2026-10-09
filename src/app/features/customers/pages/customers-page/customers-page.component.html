@@ -6,7 +6,7 @@
     </div>
 
     <div class="flex items-center gap-3">
-      <button nz-button type="button" [nzLoading]="exporter.isExporting()" (click)="exporter.exportCsv()">
+      <button nz-button type="button" [nzLoading]="facade.isExporting()" (click)="facade.exportCsv()">
         <i nz-icon nzType="export"></i>
         Export
       </button>
@@ -18,11 +18,16 @@
     </div>
   </div>
 
-  <fd-segment-tabs label="Customer status" [tabs]="statusTabs" [value]="table.filters().status" (valueChange)="updateStatus($event)" />
+  <fd-segment-tabs
+    label="Customer status"
+    [tabs]="facade.statusTabs"
+    [value]="facade.table.filters().status"
+    (valueChange)="facade.updateStatus($event)"
+  />
 
-  <fd-customers-filters [filters]="table.filters()" (filtersChange)="table.updateFilters($event)" />
+  <fd-customers-filters [filters]="facade.table.filters()" (filtersChange)="facade.table.updateFilters($event)" />
 
-  @if (table.isInitialLoading()) {
+  @if (facade.table.isInitialLoading()) {
     <div class="flex min-h-80 items-center justify-center rounded-2xl border border-slate-200 bg-white">
       <nz-spin nzSize="large" />
     </div>

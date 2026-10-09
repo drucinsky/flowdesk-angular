@@ -4,12 +4,12 @@
     class="fd-data-table"
     fdTableState
     [nzFrontPagination]="false"
-    [nzData]="table.items()"
-    [nzLoading]="table.isLoading()"
-    [nzTotal]="table.total()"
-    [nzPageIndex]="table.pageIndex()"
-    [nzPageSize]="table.pageSize()"
-    [nzScroll]="table.scroll()"
+    [nzData]="facade.table.items()"
+    [nzLoading]="facade.table.isLoading()"
+    [nzTotal]="facade.table.total()"
+    [nzPageIndex]="facade.table.pageIndex()"
+    [nzPageSize]="facade.table.pageSize()"
+    [nzScroll]="facade.table.scroll()"
   >
     <thead>
       <tr>
@@ -18,12 +18,12 @@
           nzLeft
           nzLabel="Select all customers on this page"
           [nzWidth]="'48px'"
-          [nzChecked]="selection.isPageAllSelected()"
-          [nzIndeterminate]="selection.isPageIndeterminate()"
-          (nzCheckedChange)="selection.togglePage($event)"
+          [nzChecked]="facade.selection.isPageAllSelected()"
+          [nzIndeterminate]="facade.selection.isPageIndeterminate()"
+          (nzCheckedChange)="facade.selection.togglePage($event)"
         ></th>
         <th nzLeft [nzWidth]="'48px'">
-          @if (expansion.count() > 0) {
+          @if (facade.expansion.count() > 0) {
             <button
               nz-button
               nz-tooltip
@@ -32,7 +32,7 @@
               nzTooltipTitle="Collapse all"
               type="button"
               aria-label="Collapse all expanded rows"
-              (click)="expansion.collapseAll()"
+              (click)="facade.expansion.collapseAll()"
             >
               <i nz-icon nzType="up" aria-hidden="true"></i>
             </button>
@@ -53,14 +53,14 @@
 
     <tbody>
       @for (customer of customersTable.data; track customer.id) {
-        <tr [class.fd-row-selected]="selection.isSelected(customer)">
+        <tr [class.fd-row-selected]="facade.selection.isSelected(customer)">
           <td
             nzShowCheckbox
             nzLeft
             [nzLabel]="'Select ' + customer.company"
-            [nzChecked]="selection.isSelected(customer)"
-            [nzDisabled]="!selection.isSelectable(customer)"
-            (nzCheckedChange)="selection.toggle(customer, $event)"
+            [nzChecked]="facade.selection.isSelected(customer)"
+            [nzDisabled]="!facade.selection.isSelectable(customer)"
+            (nzCheckedChange)="facade.selection.toggle(customer, $event)"
           ></td>
 
           <td nzLeft>
@@ -69,12 +69,12 @@
               nzType="text"
               nzSize="small"
               type="button"
-              [attr.aria-expanded]="expansion.isExpanded(customer)"
+              [attr.aria-expanded]="facade.expansion.isExpanded(customer)"
               [attr.aria-controls]="'customer-details-' + customer.id"
-              [attr.aria-label]="(expansion.isExpanded(customer) ? 'Collapse' : 'Expand') + ' details for ' + customer.company"
-              (click)="expansion.toggle(customer, !expansion.isExpanded(customer))"
+              [attr.aria-label]="(facade.expansion.isExpanded(customer) ? 'Collapse' : 'Expand') + ' details for ' + customer.company"
+              (click)="facade.expansion.toggle(customer, !facade.expansion.isExpanded(customer))"
             >
-              <i nz-icon [nzType]="expansion.isExpanded(customer) ? 'down' : 'right'" aria-hidden="true"></i>
+              <i nz-icon [nzType]="facade.expansion.isExpanded(customer) ? 'down' : 'right'" aria-hidden="true"></i>
             </button>
           </td>
 
@@ -111,8 +111,8 @@
           <td>{{ customer.lastActivityAt }}</td>
         </tr>
 
-        <tr [nzExpand]="expansion.isExpanded(customer)" [id]="'customer-details-' + customer.id">
-          @if (expansion.isExpanded(customer)) {
+        <tr [nzExpand]="facade.expansion.isExpanded(customer)" [id]="'customer-details-' + customer.id">
+          @if (facade.expansion.isExpanded(customer)) {
             <fd-customer-details [customer]="customer" />
           }
         </tr>

@@ -12,6 +12,7 @@ paths:
 - **Facade Pattern**: Keep components presentation-focused (dumb). Extract complex business logic and state management into Facade services.
   - Facade files MUST be named `*.facade.ts`.
   - Facade classes MUST be named with a `Facade` suffix (e.g., `UserFacade`).
+  - A screen that uses table state features composes them in a feature-level `*.facade.ts` (via `injectTableState`, `injectTableSelection`, ...). Components inject that facade and do not call the `injectTable*` helpers directly.
 - **Composition over Inheritance**: Do NOT use base classes (`extends`). Share logic using Angular's composition features:
   - Use custom inject functions (composables) for shared state/logic. Name these functions starting with `inject` (e.g., `injectPagination()`) and place them in `*.feature.ts` or `*.util.ts` files.
   - Use `hostDirectives` for shared UI/DOM behavior.

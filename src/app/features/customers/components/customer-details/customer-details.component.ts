@@ -3,8 +3,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 
-import { CustomersService } from '../../data-access/customers.service';
-import { mapCustomerDetailsToView } from '../../mappers/customer-details.mapper';
+import { CustomersFacade } from '../../customers.facade';
 import type { ICustomerTableRow } from '../../models/customer-table-row.interface';
 
 @Component({
@@ -14,20 +13,16 @@ import type { ICustomerTableRow } from '../../models/customer-table-row.interfac
   styleUrl: './customer-details.component.scss',
 })
 export class CustomerDetailsComponent {
-  private readonly _customersService = inject(CustomersService);
+  private readonly _facade = inject(CustomersFacade);
 
   readonly customer = input.required<ICustomerTableRow>();
 
   private readonly _detailsResource = rxResource({
     params: () => this.customer().id,
-    stream: ({ params }) => this._customersService.getCustomerDetails(params),
+    stream: ({ params }) => this._facade.loadDetails(params),
   });
 
   protected readonly isLoading = this._detailsResource.isLoading;
   protected readonly hasError = computed(() => this._detailsResource.status() === 'error');
-  protected readonly details = computed(() => {
-    const details = this._detailsResource.hasValue() ? this._detailsResource.value() : undefined;
-
-    return details ? mapCustomerDetailsToView(details) : undefined;
-  });
+  protected readonly details = computed(() => (this._detailsResource.hasValue() ? this._detailsResource.value() : undefined));
 }
