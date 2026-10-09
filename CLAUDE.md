@@ -17,7 +17,7 @@ paths:
   - Use custom inject functions (composables) for shared state/logic. Name these functions starting with `inject` (e.g., `injectPagination()`) and place them in `*.feature.ts` or `*.util.ts` files.
   - Use `hostDirectives` for shared UI/DOM behavior.
 - **Feature-first**: Group domains in directories with their own lazy-loaded routes. Never lazy-load single components.
-- **Table Features**: Optional table capabilities that keep per-table state (selection, row expansion, inline edit) live in `shared/table-state/features/<name>/` as a `with<Name>()` function (`*.feature.ts`) passed to `provideTableState(config, ...features)`, with a typed `injectTable<Name>()`. Stateless helpers (e.g., CSV export) are plain `inject*` composables. Domain-specific actions (e.g., bulk delete) stay in the table's own feature folder. After an action that changes data, call `table.refresh()` and `selection.clear()`.
+- **Table Features**: Optional table capabilities that keep per-table state (selection, row expansion, inline edit) live in `shared/table-state/features/<name>/` as a `with<Name>()` function (`*.feature.ts`) passed to `provideTableState(config, ...features)`, with a typed `injectTable<Name>()`. Stateless helpers (e.g., CSV export) are plain `inject*` composables. Domain-specific actions (e.g., bulk delete) stay in the table's own feature folder. After an action that changes data, call `table.refresh()` and deselect only the processed rows (`selection.deselect(rows)`; use `selection.clear()` only when everything was processed).
 - **Services**: Design around a single responsibility. Use the new `@Service` decorator (Angular v22+) instead of `@Injectable({providedIn: 'root'})` for new singletons.
 
 ## 2. Component Authoring (v22+)

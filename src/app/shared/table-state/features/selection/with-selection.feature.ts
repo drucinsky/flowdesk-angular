@@ -7,7 +7,7 @@ import { TABLE_SELECTION_OPTIONS } from './table-selection.tokens';
 
 /**
  * Adds row selection (kept between pages, cleared when filters change) to a table.
- * After an action that changes the data, call `table.refresh()` and `selection.clear()`.
+ * After an action that changes the data, call `table.refresh()` and `selection.deselect(processedRows)` (or `selection.clear()`).
  */
 export function withSelection<TRow>(options: ITableSelectionOptions<TRow>): ITableFeature {
   return {
