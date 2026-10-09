@@ -11,6 +11,8 @@ export abstract class BaseTableFiltersComponent<TFilters extends object, TForm e
   private readonly _destroyRef = inject(DestroyRef);
   private readonly _injector = inject(Injector);
 
+  // TODO: migrate to model() when table filters are refactored to a composable (injectTableFilters).
+  // eslint-disable-next-line @angular-eslint/prefer-signal-model
   readonly filters = input.required<TFilters>();
   readonly filtersChange = output<TFilters>();
 

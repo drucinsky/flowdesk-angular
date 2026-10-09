@@ -4,7 +4,14 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { provideNzDateFnsAdapter } from 'ng-zorro-antd/core/time';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideBrowserGlobalErrorListeners(), provideRouter(routes), provideNzI18n(en_US), importProvidersFrom(NzModalModule)],
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(routes),
+    provideNzI18n(en_US),
+    importProvidersFrom(NzModalModule),
+    provideNzDateFnsAdapter(),
+  ],
 };
