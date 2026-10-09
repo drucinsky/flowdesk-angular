@@ -6,3 +6,5 @@ export const DEFAULT_TABLE_SCROLL: ITableScrollConfig = {
   x: '1450px',
   y: '100%',
 };
+
+export const DEFAULT_TABLE_FILTERS_DEBOUNCE_MS = 300;
