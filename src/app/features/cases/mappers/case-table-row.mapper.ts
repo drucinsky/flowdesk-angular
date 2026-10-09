@@ -4,6 +4,11 @@ import { CaseStatus } from '../models/case-status.enum';
 import type { ICaseTableRow, ICaseTableTag } from '../models/case-table-row.interface';
 import type { ICase } from '../models/case.interface';
 
+const UPDATED_AT_FORMATTER = new Intl.DateTimeFormat('en-US', {
+  dateStyle: 'medium',
+  timeStyle: 'short',
+});
+
 const CATEGORY_LABELS: Record<CaseCategory, string> = {
   [CaseCategory.TECHNICAL_SUPPORT]: 'Technical Support',
   [CaseCategory.ACCOUNT_MANAGEMENT]: 'Account Management',
@@ -65,6 +70,6 @@ export function mapCaseToTableRow(caseItem: ICase): ICaseTableRow {
     statusValue: caseItem.status,
     sla: caseItem.sla,
     assignee: caseItem.assignee,
-    updatedAt: caseItem.updatedAt,
+    updatedAt: UPDATED_AT_FORMATTER.format(new Date(caseItem.updatedAt)),
   };
 }

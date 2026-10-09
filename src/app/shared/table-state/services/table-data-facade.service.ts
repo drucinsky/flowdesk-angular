@@ -1,6 +1,7 @@
-import { Injectable, computed, inject } from '@angular/core';
+import { Injectable, computed, inject, linkedSignal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 
+import type { ITableDataResult } from '../models/table-data-result.interface';
 import type { ITableQuery } from '../models/table-query.interface';
 import { TABLE_DATA_SOURCE, TABLE_STATE_CONFIG } from '../tokens/table-state.tokens';
 import { TableFiltersStateService } from './table-filters-state.service';
@@ -39,10 +40,16 @@ export class TableDataFacadeService<TRow, TFilters extends object, TSortKey exte
     stream: ({ params }) => this._dataSource.getList(params),
   });
 
-  readonly items = computed<readonly TRow[]>(() => this._resource.value()?.items ?? []);
-  readonly total = computed(() => this._resource.value()?.total ?? 0);
+  // rxResource clears its value when params change, so keep the last result to avoid flashing an empty table.
+  private readonly _lastResult = linkedSignal<ITableDataResult<TRow> | undefined, ITableDataResult<TRow> | undefined>({
+    source: () => (this._resource.hasValue() ? this._resource.value() : undefined),
+    computation: (value, previous) => value ?? previous?.value,
+  });
+
+  readonly items = computed<readonly TRow[]>(() => this._lastResult()?.items ?? []);
+  readonly total = computed(() => this._lastResult()?.total ?? 0);
   readonly isLoading = this._resource.isLoading;
-  readonly isInitialLoading = computed(() => this._resource.isLoading() && !this._resource.value());
+  readonly isInitialLoading = computed(() => this._resource.isLoading() && !this._lastResult());
 
   updateFilters(filters: Partial<TFilters>): void {
     this._filtersState.updateFilters(filters);
