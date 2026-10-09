@@ -1,0 +1,44 @@
+<section class="close-case-modal">
+  <p class="close-case-modal__description">
+    You are closing case <strong>{{ data.caseNumber }}</strong
+    >. Add a short reason so the action is auditable.
+  </p>
+
+  <form class="close-case-modal__form" [formGroup]="facade.form">
+    <label class="close-case-modal__field">
+      <span class="close-case-modal__label">Close reason</span>
+
+      <textarea
+        nz-input
+        formControlName="reason"
+        rows="4"
+        placeholder="Example: customer confirmed that the issue has been resolved"
+      ></textarea>
+    </label>
+
+    @if (facade.form.controls.reason.touched && facade.form.controls.reason.hasError('required')) {
+      <p class="close-case-modal__error">Close reason is required.</p>
+    }
+
+    @if (facade.form.controls.reason.touched && facade.form.controls.reason.hasError('minlength')) {
+      <p class="close-case-modal__error">Close reason should have at least 5 characters.</p>
+    }
+
+    <label class="close-case-modal__checkbox">
+      <input type="checkbox" formControlName="notifyClient" />
+      <span>Notify customer about closing this case</span>
+    </label>
+  </form>
+
+  <footer class="close-case-modal__actions">
+    <button nz-button type="button" (click)="cancel()">Cancel</button>
+
+    <button nz-button nzType="primary" type="button" [disabled]="facade.loading()" (click)="confirm()">
+      @if (facade.loading()) {
+        Closing...
+      } @else {
+        Close case
+      }
+    </button>
+  </footer>
+</section>

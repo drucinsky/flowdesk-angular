@@ -27,6 +27,6 @@
       <nz-spin nzSize="large" />
     </div>
   } @else {
-    <fd-cases-table class="cases-table-wrapper" />
+    <fd-cases-table class="cases-table-wrapper" (rowAction)="handleCaseTableAction($event)" />
   }
 </section>

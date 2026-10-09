@@ -1,9 +1,10 @@
-import { type ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { type ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideBrowserGlobalErrorListeners(), provideRouter(routes), provideNzI18n(en_US)],
+  providers: [provideBrowserGlobalErrorListeners(), provideRouter(routes), provideNzI18n(en_US), importProvidersFrom(NzModalModule)],
 };

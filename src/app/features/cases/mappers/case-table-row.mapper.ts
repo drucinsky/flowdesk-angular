@@ -62,6 +62,7 @@ export function mapCaseToTableRow(caseItem: ICase): ICaseTableRow {
     categoryLabel: CATEGORY_LABELS[caseItem.category],
     priority: PRIORITY_TAG_CONFIG[caseItem.priority],
     status: STATUS_TAG_CONFIG[caseItem.status],
+    statusValue: caseItem.status,
     sla: caseItem.sla,
     assignee: caseItem.assignee,
     updatedAt: caseItem.updatedAt,
