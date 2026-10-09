@@ -1,0 +1,58 @@
+<div class="grid gap-6 p-4 md:grid-cols-3">
+  <section aria-labelledby="customer-contact-heading">
+    <h3 id="customer-contact-heading" class="m-0 mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">Contact</h3>
+
+    <p class="m-0 text-sm font-semibold text-slate-950">{{ customer().contactName }}</p>
+    <p class="m-0 mt-1 text-sm text-slate-600">{{ customer().email }}</p>
+
+    @if (isLoading()) {
+      <nz-skeleton [nzActive]="true" [nzParagraph]="{ rows: 1 }" [nzTitle]="false" />
+    } @else if (details(); as details) {
+      <p class="m-0 mt-1 text-sm text-slate-600">{{ details.phone }}</p>
+      <p class="m-0 mt-1 text-sm text-slate-600">{{ details.address }}</p>
+    }
+  </section>
+
+  <section aria-labelledby="customer-account-heading">
+    <h3 id="customer-account-heading" class="m-0 mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">Account</h3>
+
+    <dl class="m-0 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+      <dt class="text-slate-500">Owner</dt>
+      <dd class="m-0 text-slate-950">{{ customer().owner }}</dd>
+
+      <dt class="text-slate-500">Country</dt>
+      <dd class="m-0 text-slate-950">{{ customer().country }}</dd>
+
+      <dt class="text-slate-500">Plan</dt>
+      <dd class="m-0">
+        <nz-tag [nzColor]="customer().plan.color">{{ customer().plan.label }}</nz-tag>
+      </dd>
+
+      <dt class="text-slate-500">MRR</dt>
+      <dd class="m-0 text-slate-950">{{ customer().mrr }}</dd>
+    </dl>
+  </section>
+
+  <section aria-labelledby="customer-cases-heading">
+    <h3 id="customer-cases-heading" class="m-0 mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">Recent cases</h3>
+
+    @if (isLoading()) {
+      <nz-skeleton [nzActive]="true" [nzParagraph]="{ rows: 2 }" [nzTitle]="false" />
+    } @else if (hasError()) {
+      <p class="m-0 text-sm text-red-600" role="alert">Could not load customer details.</p>
+    } @else if (details(); as details) {
+      @for (recentCase of details.recentCases; track recentCase.id) {
+        <p class="m-0 mb-2 text-sm">
+          <span class="font-semibold text-slate-950">{{ recentCase.id }}</span>
+          {{ recentCase.title }}
+          <span class="block text-xs text-slate-500">{{ recentCase.status }} · {{ recentCase.updatedAt }}</span>
+        </p>
+      } @empty {
+        <p class="m-0 text-sm text-slate-500">No open cases.</p>
+      }
+
+      <h3 class="m-0 mb-1 mt-4 text-xs font-semibold uppercase tracking-wide text-slate-500">Notes</h3>
+      <p class="m-0 text-sm text-slate-600">{{ details.notes }}</p>
+    }
+  </section>
+</div>

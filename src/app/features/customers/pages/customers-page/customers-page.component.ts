@@ -6,6 +6,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { type ISegmentTab, SegmentTabsComponent } from '../../../../shared/segment-tabs/segment-tabs.component';
 import { TableKey } from '../../../../shared/table-state/config/table-key.enum';
 import { TableSortDirection } from '../../../../shared/table-state/models/table-sort.interface';
+import { withRowExpansion } from '../../../../shared/table-state/features/row-expansion/with-row-expansion.feature';
 import { withSelection } from '../../../../shared/table-state/features/selection/with-selection.feature';
 import { provideTableState } from '../../../../shared/table-state/providers/provide-table-state';
 import { injectTableState } from '../../../../shared/table-state/table-state.feature';
@@ -34,6 +35,10 @@ import type { ICustomerTableRow } from '../../models/customer-table-row.interfac
       },
       withSelection<ICustomerTableRow>({
         rowKey: (row) => row.id,
+      }),
+      withRowExpansion<ICustomerTableRow>({
+        rowKey: (row) => row.id,
+        mode: 'multiple',
       }),
     ),
   ],

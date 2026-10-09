@@ -22,6 +22,7 @@
           [nzIndeterminate]="selection.isPageIndeterminate()"
           (nzCheckedChange)="selection.togglePage($event)"
         ></th>
+        <th nzLeft [nzWidth]="'48px'"><span class="sr-only">Expand details</span></th>
         <th [nzWidth]="'320px'" [fdTableSort]="'company'">Customer</th>
         <th [nzWidth]="'130px'" [fdTableSort]="'plan'">Plan</th>
         <th [nzWidth]="'140px'" [fdTableSort]="'status'">Status</th>
@@ -44,6 +45,21 @@
             [nzDisabled]="!selection.isSelectable(customer)"
             (nzCheckedChange)="selection.toggle(customer, $event)"
           ></td>
+
+          <td nzLeft>
+            <button
+              nz-button
+              nzType="text"
+              nzSize="small"
+              type="button"
+              [attr.aria-expanded]="expansion.isExpanded(customer)"
+              [attr.aria-controls]="'customer-details-' + customer.id"
+              [attr.aria-label]="(expansion.isExpanded(customer) ? 'Collapse' : 'Expand') + ' details for ' + customer.company"
+              (click)="expansion.toggle(customer, !expansion.isExpanded(customer))"
+            >
+              <i nz-icon [nzType]="expansion.isExpanded(customer) ? 'down' : 'right'" aria-hidden="true"></i>
+            </button>
+          </td>
 
           <td>
             <div class="flex min-w-0 items-center gap-3">
@@ -76,6 +92,12 @@
           <td nzAlign="right">{{ customer.openCases }}</td>
           <td nzAlign="right">{{ customer.mrr }}</td>
           <td>{{ customer.lastActivityAt }}</td>
+        </tr>
+
+        <tr [nzExpand]="expansion.isExpanded(customer)" [id]="'customer-details-' + customer.id">
+          @if (expansion.isExpanded(customer)) {
+            <fd-customer-details [customer]="customer" />
+          }
         </tr>
       }
     </tbody>
