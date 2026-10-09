@@ -18,5 +18,7 @@ export interface ICustomerTableRow {
   readonly owner: string;
   readonly openCases: number;
   readonly mrr: string;
+  readonly mrrValue: number;
   readonly lastActivityAt: string;
+  readonly lastActivityAtValue: string;
 }
