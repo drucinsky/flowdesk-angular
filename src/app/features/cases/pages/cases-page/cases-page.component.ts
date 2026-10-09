@@ -12,7 +12,7 @@ import { CasesTableDataSource } from '../../data-access/cases-table-data-source.
 import { TableKey } from '../../../../shared/table-state/config/table-key.enum';
 import { TableSortDirection } from '../../../../shared/table-state/models/table-sort.interface';
 import { provideTableState } from '../../../../shared/table-state/providers/provide-table-state';
-import { TableDataFacadeService } from '../../../../shared/table-state/services/table-data-facade.service';
+import { injectTableState } from '../../../../shared/table-state/table-state.feature';
 import type { ICaseTableRow } from '../../models/case-table-row.interface';
 import { CloseCaseModalService } from '../../modals/close-case-modal';
 import { type ICaseTableActionEvent } from '../../models/case-table-action-event.interface';
@@ -36,7 +36,7 @@ import { type ICaseTableActionEvent } from '../../models/case-table-action-event
   styleUrl: './cases-page.component.scss',
 })
 export class CasesPageComponent {
-  protected readonly table = inject<TableDataFacadeService<ICaseTableRow, ICaseFilters, CaseSortKey>>(TableDataFacadeService);
+  protected readonly table = injectTableState<ICaseTableRow, ICaseFilters, CaseSortKey>();
   private readonly _closeCaseModal = inject(CloseCaseModalService);
 
   protected updateStatus(status: CaseStatus | null): void {

@@ -1,15 +1,17 @@
 import { Injectable, effect, inject, signal } from '@angular/core';
 
-import type { ITableStateConfig } from '../models/table-state-config.interface';
-import { TABLE_STATE_CONFIG } from '../tokens/table-state.tokens';
+import { injectTableConfig } from '../table-state-config.feature';
 import { TableStorageService } from './table-storage.service';
 
 @Injectable()
 export class TableFiltersStateService<TFilters extends object> {
-  private readonly _config = inject(TABLE_STATE_CONFIG) as ITableStateConfig<unknown, TFilters, string>;
+  private readonly _config = injectTableConfig<unknown, TFilters>();
   private readonly _storage = inject(TableStorageService);
 
-  readonly filters = signal<TFilters>(this._storage.getFromSession<TFilters>('filters', this._config.defaultFilters));
+  readonly filters = signal<TFilters>({
+    ...this._config.defaultFilters,
+    ...this._storage.getFromSession<Partial<TFilters>>('filters', {}),
+  });
 
   constructor() {
     effect(() => {

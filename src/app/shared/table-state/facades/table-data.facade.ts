@@ -3,22 +3,20 @@ import { rxResource } from '@angular/core/rxjs-interop';
 
 import type { ITableDataResult } from '../models/table-data-result.interface';
 import type { ITableQuery } from '../models/table-query.interface';
-import { TABLE_DATA_SOURCE, TABLE_STATE_CONFIG } from '../tokens/table-state.tokens';
-import { TableFiltersStateService } from './table-filters-state.service';
-import { TablePaginationStateService } from './table-pagination-state.service';
-import { TableSortStateService } from './table-sort-state.service';
-import type { TableDataSource } from './table-data-source.service';
+import { injectTableConfig, injectTableDataSource } from '../table-state-config.feature';
+import { TableFiltersStateService } from '../services/table-filters-state.service';
+import { TablePaginationStateService } from '../services/table-pagination-state.service';
+import { TableSortStateService } from '../services/table-sort-state.service';
 import type { ITableSort } from '../models/table-sort.interface';
-import type { ITableStateConfig } from '../models/table-state-config.interface';
 import { DEFAULT_TABLE_PAGE_SIZE_OPTIONS, DEFAULT_TABLE_SCROLL } from '../config/table-default.config';
 
 @Injectable()
-export class TableDataFacadeService<TRow, TFilters extends object, TSortKey extends string = string> {
-  private readonly _config = inject(TABLE_STATE_CONFIG) as ITableStateConfig<TRow, TFilters, TSortKey>;
+export class TableDataFacade<TRow, TFilters extends object, TSortKey extends string = string> {
+  private readonly _config = injectTableConfig<TRow, TFilters, TSortKey>();
   private readonly _filtersState = inject(TableFiltersStateService<TFilters>);
   private readonly _paginationState = inject(TablePaginationStateService);
   private readonly _sortState = inject(TableSortStateService<TSortKey>);
-  private readonly _dataSource = inject(TABLE_DATA_SOURCE) as TableDataSource<TRow, TFilters, TSortKey>;
+  private readonly _dataSource = injectTableDataSource<TRow, TFilters, TSortKey>();
 
   readonly filters = this._filtersState.filters.asReadonly();
   readonly pageIndex = this._paginationState.pageIndex.asReadonly();

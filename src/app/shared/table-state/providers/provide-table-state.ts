@@ -1,7 +1,7 @@
 import type { Provider } from '@angular/core';
 
 import type { ITableStateConfig } from '../models/table-state-config.interface';
-import { TableDataFacadeService } from '../services/table-data-facade.service';
+import { TableDataFacade } from '../facades/table-data.facade';
 import { TableFiltersStateService } from '../services/table-filters-state.service';
 import { TablePaginationStateService } from '../services/table-pagination-state.service';
 import { TableSortStateService } from '../services/table-sort-state.service';
@@ -24,6 +24,6 @@ export function provideTableState<TRow, TFilters extends object, TSortKey extend
     TableFiltersStateService,
     TablePaginationStateService,
     TableSortStateService,
-    TableDataFacadeService,
+    TableDataFacade,
   ];
 }
