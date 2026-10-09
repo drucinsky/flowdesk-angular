@@ -1,0 +1,59 @@
+import { Service } from '@angular/core';
+import { delay, of, type Observable } from 'rxjs';
+
+import type { ITableDataResult } from '../../../shared/table-state/models/table-data-result.interface';
+import type { ITableQuery } from '../../../shared/table-state/models/table-query.interface';
+import { type TableSortValue, paginateTableItems, sortTableItems } from '../../../shared/table-state/utils/mock-table-query.util';
+import type { ICustomerFilters } from '../models/customer-filters.interface';
+import type { CustomerSortKey } from '../models/customer-sort-key.type';
+import type { ICustomer } from '../models/customer.interface';
+import { CUSTOMERS_MOCK_DATA } from './customers.mock';
+
+const SORT_VALUE_GETTERS: Record<CustomerSortKey, (customer: ICustomer) => TableSortValue> = {
+  company: (customer) => customer.company.toLowerCase(),
+  plan: (customer) => customer.plan,
+  status: (customer) => customer.status,
+  owner: (customer) => customer.owner.toLowerCase(),
+  country: (customer) => customer.country,
+  openCases: (customer) => customer.openCases,
+  mrr: (customer) => customer.mrr,
+  lastActivityAt: (customer) => Date.parse(customer.lastActivityAt),
+};
+
+/**
+ * Simulates a backend table endpoint for static mock data.
+ * With a real API, this service would only send the table query and return the paginated response.
+ */
+@Service()
+export class CustomersService {
+  getCustomersData(query: ITableQuery<ICustomerFilters, CustomerSortKey>): Observable<ITableDataResult<ICustomer>> {
+    const filteredCustomers = this._filterCustomers(CUSTOMERS_MOCK_DATA, query.filters);
+    const sortedCustomers = sortTableItems(filteredCustomers, query.sort, SORT_VALUE_GETTERS);
+    const paginatedCustomers = paginateTableItems(sortedCustomers, query.pageIndex, query.pageSize);
+
+    return of({
+      items: paginatedCustomers,
+      total: filteredCustomers.length,
+    }).pipe(delay(350));
+  }
+
+  private _filterCustomers(customers: readonly ICustomer[], filters: ICustomerFilters): readonly ICustomer[] {
+    const search = filters.search.trim().toLowerCase();
+
+    return customers.filter((customer) => {
+      const matchesSearch =
+        !search ||
+        customer.id.toLowerCase().includes(search) ||
+        customer.company.toLowerCase().includes(search) ||
+        customer.contactName.toLowerCase().includes(search) ||
+        customer.email.toLowerCase().includes(search);
+
+      const matchesStatus = !filters.status || customer.status === filters.status;
+      const matchesPlan = !filters.plan || customer.plan === filters.plan;
+      const matchesOwner = !filters.owner || customer.owner === filters.owner;
+      const matchesCountry = !filters.country || customer.country === filters.country;
+
+      return matchesSearch && matchesStatus && matchesPlan && matchesOwner && matchesCountry;
+    });
+  }
+}

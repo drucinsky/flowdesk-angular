@@ -1,0 +1,64 @@
+<section class="fd-data-table-card">
+  <nz-table
+    #customersTable
+    class="fd-data-table"
+    fdTableState
+    [nzData]="table.items()"
+    [nzLoading]="table.isLoading()"
+    [nzTotal]="table.total()"
+    [nzPageIndex]="table.pageIndex()"
+    [nzPageSize]="table.pageSize()"
+    [nzScroll]="table.scroll()"
+  >
+    <thead>
+      <tr>
+        <th [nzWidth]="'320px'" [fdTableSort]="'company'">Customer</th>
+        <th [nzWidth]="'130px'" [fdTableSort]="'plan'">Plan</th>
+        <th [nzWidth]="'140px'" [fdTableSort]="'status'">Status</th>
+        <th [nzWidth]="'160px'" [fdTableSort]="'owner'">Owner</th>
+        <th [nzWidth]="'150px'" [fdTableSort]="'country'">Country</th>
+        <th [nzWidth]="'130px'" nzAlign="right" class="fd-th-end" [fdTableSort]="'openCases'">Open cases</th>
+        <th [nzWidth]="'120px'" nzAlign="right" class="fd-th-end" [fdTableSort]="'mrr'">MRR</th>
+        <th [nzWidth]="'200px'" [fdTableSort]="'lastActivityAt'">Last activity</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (customer of customersTable.data; track customer.id) {
+        <tr>
+          <td>
+            <div class="flex min-w-0 items-center gap-3">
+              <nz-avatar class="customer-avatar" aria-hidden="true" [nzText]="customer.initials" />
+
+              <div class="flex min-w-0 flex-col">
+                <strong class="block truncate text-sm font-bold text-slate-950">
+                  {{ customer.company }}
+                </strong>
+
+                <span class="mt-1 block truncate text-xs text-slate-500"> {{ customer.contactName }} · {{ customer.email }} </span>
+              </div>
+            </div>
+          </td>
+
+          <td>
+            <nz-tag [nzColor]="customer.plan.color">
+              {{ customer.plan.label }}
+            </nz-tag>
+          </td>
+
+          <td>
+            <nz-tag [nzColor]="customer.status.color">
+              {{ customer.status.label }}
+            </nz-tag>
+          </td>
+
+          <td>{{ customer.owner }}</td>
+          <td>{{ customer.country }}</td>
+          <td nzAlign="right">{{ customer.openCases }}</td>
+          <td nzAlign="right">{{ customer.mrr }}</td>
+          <td>{{ customer.lastActivityAt }}</td>
+        </tr>
+      }
+    </tbody>
+  </nz-table>
+</section>
