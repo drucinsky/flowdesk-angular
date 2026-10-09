@@ -1,9 +1,10 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { form } from '@angular/forms/signals';
 import { finalize, map, type Observable } from 'rxjs';
 
 import { CasesService } from '../../data-access/cases.service';
-import { type ICloseCaseModalData, type ICloseCaseModalResult } from './close-case-modal.types';
+import { CLOSE_CASE_FORM_SCHEMA } from './close-case-modal.schema';
+import { type ICloseCaseFormValue, type ICloseCaseModalData, type ICloseCaseModalResult } from './close-case-modal.types';
 
 @Injectable()
 export class CloseCaseModalFacade {
@@ -11,18 +12,15 @@ export class CloseCaseModalFacade {
 
   readonly loading = signal(false);
 
-  readonly form = new FormGroup({
-    reason: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(5)],
-    }),
-    notifyClient: new FormControl(true, {
-      nonNullable: true,
-    }),
+  private readonly _formValue = signal<ICloseCaseFormValue>({
+    reason: '',
+    notifyClient: true,
   });
 
+  readonly form = form(this._formValue, CLOSE_CASE_FORM_SCHEMA);
+
   closeCase(data: ICloseCaseModalData): Observable<ICloseCaseModalResult> {
-    const formValue = this.form.getRawValue();
+    const formValue = this._formValue();
 
     this.loading.set(true);
 

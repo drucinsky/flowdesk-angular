@@ -1,7 +1,8 @@
 import { Component, DestroyRef, effect, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CloseCaseModalFacade } from './close-case-modal.facade';
-import { ReactiveFormsModule } from '@angular/forms';
+import { CLOSE_REASON_MIN_LENGTH } from './close-case-modal.schema';
+import { FormField } from '@angular/forms/signals';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -10,7 +11,7 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'fd-close-case-modal',
-  imports: [ReactiveFormsModule, NzButtonModule, NzInputModule],
+  imports: [FormField, NzButtonModule, NzInputModule],
   templateUrl: './close-case-modal.component.html',
   styleUrl: './close-case-modal.component.scss',
   providers: [CloseCaseModalFacade],
@@ -23,6 +24,7 @@ export class CloseCaseModalComponent {
 
   protected readonly data = inject<ICloseCaseModalData>(NZ_MODAL_DATA);
   protected readonly facade = inject(CloseCaseModalFacade);
+  protected readonly closeReasonMinLength = CLOSE_REASON_MIN_LENGTH;
 
   // nzOkLoading also makes NzModal ignore the Esc key and mask clicks while the request is pending.
   private readonly _lockModalWhileLoading = effect(() => {
@@ -39,8 +41,8 @@ export class CloseCaseModalComponent {
   }
 
   protected confirm(): void {
-    if (this.facade.form.invalid) {
-      this.facade.form.markAllAsTouched();
+    if (this.facade.form().invalid()) {
+      this.facade.form().markAsTouched();
       return;
     }
 
