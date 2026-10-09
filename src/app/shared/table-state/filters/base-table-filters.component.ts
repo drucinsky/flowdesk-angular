@@ -1,5 +1,5 @@
-import { DestroyRef, Directive, Injector, effect, inject, input, output } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DestroyRef, Directive, Injector, inject, input, output } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import type { FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs';
 import { TABLE_STATE_CONFIG } from '../tokens/table-state.tokens';
@@ -49,16 +49,13 @@ export abstract class BaseTableFiltersComponent<TFilters extends object, TForm e
   }
 
   private _syncInputFiltersWithForm(): void {
-    effect(
-      () => {
-        this.form.patchValue(this.filters(), {
+    toObservable(this.filters, { injector: this._injector })
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((filters) => {
+        this.form.patchValue(filters, {
           emitEvent: false,
         });
-      },
-      {
-        injector: this._injector,
-      },
-    );
+      });
   }
 
   private _listenFormValueChanges(): void {

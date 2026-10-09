@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CloseCaseModalFacade } from './close-case-modal.facade';
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import type { ICloseCaseModalData, ICloseCaseModalResult } from './close-case-modal.types';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'fd-close-case-modal',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NzButtonModule, NzInputModule],
   templateUrl: './close-case-modal.component.html',
   styleUrl: './close-case-modal.component.scss',
   providers: [CloseCaseModalFacade],

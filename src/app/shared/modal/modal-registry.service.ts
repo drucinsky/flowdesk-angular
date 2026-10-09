@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import type { NzModalRef } from 'ng-zorro-antd/modal';
+import { take } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ModalRegistryService {
@@ -12,7 +13,7 @@ export class ModalRegistryService {
   register(key: string, ref: NzModalRef): void {
     this._refs.set(key, ref);
 
-    ref.afterClose.subscribe(() => {
+    ref.afterClose.pipe(take(1)).subscribe(() => {
       this._refs.delete(key);
     });
   }
