@@ -4,6 +4,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 
 import { TableSelectionBarComponent } from '../../../../shared/table-state/components/table-selection-bar/table-selection-bar.component';
 import { injectTableRowExpansion } from '../../../../shared/table-state/features/row-expansion/with-row-expansion.feature';
@@ -25,6 +26,7 @@ import type { ICustomerTableRow } from '../../models/customer-table-row.interfac
     NzIconModule,
     NzTableModule,
     NzTagModule,
+    NzTooltipModule,
     TableSelectionBarComponent,
     TableStateDirective,
     TableSortDirective,
