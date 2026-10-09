@@ -13,7 +13,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.IN_PROGRESS,
     sla: '2h 15m',
     assignee: 'Sarah Lee',
-    updatedAt: 'May 18, 2025 10:24 AM',
+    updatedAt: '2025-05-18T10:24:00',
   },
   {
     id: '#12400',
@@ -24,7 +24,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.WAITING,
     sla: '5h 40m',
     assignee: 'Michael Chen',
-    updatedAt: 'May 18, 2025 9:15 AM',
+    updatedAt: '2025-05-18T09:15:00',
   },
   {
     id: '#12399',
@@ -35,7 +35,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.SLA_RISK,
     sla: '15m',
     assignee: 'Emily Nguyen',
-    updatedAt: 'May 18, 2025 8:47 AM',
+    updatedAt: '2025-05-18T08:47:00',
   },
   {
     id: '#12398',
@@ -46,7 +46,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.NEW,
     sla: '7h 20m',
     assignee: 'David Kim',
-    updatedAt: 'May 18, 2025 7:31 AM',
+    updatedAt: '2025-05-18T07:31:00',
   },
   {
     id: '#12397',
@@ -57,7 +57,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.IN_PROGRESS,
     sla: '3h 05m',
     assignee: 'Sarah Lee',
-    updatedAt: 'May 17, 2025 4:22 PM',
+    updatedAt: '2025-05-17T16:22:00',
   },
   {
     id: '#12396',
@@ -68,7 +68,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.WAITING,
     sla: '1d 2h',
     assignee: 'Michael Chen',
-    updatedAt: 'May 17, 2025 2:11 PM',
+    updatedAt: '2025-05-17T14:11:00',
   },
   {
     id: '#12395',
@@ -79,7 +79,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.SLA_RISK,
     sla: '28m',
     assignee: 'Emily Nguyen',
-    updatedAt: 'May 17, 2025 1:36 PM',
+    updatedAt: '2025-05-17T13:36:00',
   },
   {
     id: '#12394',
@@ -90,7 +90,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.IN_PROGRESS,
     sla: '4h 10m',
     assignee: 'David Kim',
-    updatedAt: 'May 17, 2025 12:18 PM',
+    updatedAt: '2025-05-17T12:18:00',
   },
   {
     id: '#12393',
@@ -101,7 +101,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.IN_PROGRESS,
     sla: '1h 05m',
     assignee: 'Sarah Lee',
-    updatedAt: 'May 17, 2025 11:42 AM',
+    updatedAt: '2025-05-17T11:42:00',
   },
   {
     id: '#12392',
@@ -112,7 +112,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.CLOSED,
     sla: 'Resolved',
     assignee: 'Michael Chen',
-    updatedAt: 'May 17, 2025 10:03 AM',
+    updatedAt: '2025-05-17T10:03:00',
   },
   {
     id: '#12391',
@@ -123,7 +123,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.NEW,
     sla: '6h 45m',
     assignee: 'Emily Nguyen',
-    updatedAt: 'May 16, 2025 5:21 PM',
+    updatedAt: '2025-05-16T17:21:00',
   },
   {
     id: '#12390',
@@ -134,7 +134,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.WAITING,
     sla: '1d 5h',
     assignee: 'David Kim',
-    updatedAt: 'May 16, 2025 4:48 PM',
+    updatedAt: '2025-05-16T16:48:00',
   },
   {
     id: '#12389',
@@ -145,7 +145,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.SLA_RISK,
     sla: '9m',
     assignee: 'Sarah Lee',
-    updatedAt: 'May 16, 2025 3:55 PM',
+    updatedAt: '2025-05-16T15:55:00',
   },
   {
     id: '#12388',
@@ -156,7 +156,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.IN_PROGRESS,
     sla: '2h 50m',
     assignee: 'Michael Chen',
-    updatedAt: 'May 16, 2025 2:39 PM',
+    updatedAt: '2025-05-16T14:39:00',
   },
   {
     id: '#12387',
@@ -167,7 +167,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.NEW,
     sla: '8h 15m',
     assignee: 'Emily Nguyen',
-    updatedAt: 'May 16, 2025 1:26 PM',
+    updatedAt: '2025-05-16T13:26:00',
   },
   {
     id: '#12386',
@@ -178,7 +178,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.WAITING,
     sla: '5h 05m',
     assignee: 'David Kim',
-    updatedAt: 'May 16, 2025 12:12 PM',
+    updatedAt: '2025-05-16T12:12:00',
   },
   {
     id: '#12385',
@@ -189,7 +189,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.IN_PROGRESS,
     sla: '3h 25m',
     assignee: 'Sarah Lee',
-    updatedAt: 'May 16, 2025 11:37 AM',
+    updatedAt: '2025-05-16T11:37:00',
   },
   {
     id: '#12384',
@@ -200,7 +200,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.CLOSED,
     sla: 'Resolved',
     assignee: 'Michael Chen',
-    updatedAt: 'May 16, 2025 10:44 AM',
+    updatedAt: '2025-05-16T10:44:00',
   },
   {
     id: '#12383',
@@ -211,7 +211,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.WAITING,
     sla: '4h 35m',
     assignee: 'Emily Nguyen',
-    updatedAt: 'May 15, 2025 5:19 PM',
+    updatedAt: '2025-05-15T17:19:00',
   },
   {
     id: '#12382',
@@ -222,7 +222,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.NEW,
     sla: '1d 1h',
     assignee: 'David Kim',
-    updatedAt: 'May 15, 2025 4:03 PM',
+    updatedAt: '2025-05-15T16:03:00',
   },
   {
     id: '#12381',
@@ -233,7 +233,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.IN_PROGRESS,
     sla: '2h 05m',
     assignee: 'Sarah Lee',
-    updatedAt: 'May 15, 2025 3:27 PM',
+    updatedAt: '2025-05-15T15:27:00',
   },
   {
     id: '#12380',
@@ -244,7 +244,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.CLOSED,
     sla: 'Resolved',
     assignee: 'Michael Chen',
-    updatedAt: 'May 15, 2025 2:02 PM',
+    updatedAt: '2025-05-15T14:02:00',
   },
   {
     id: '#12379',
@@ -255,7 +255,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.WAITING,
     sla: '6h 30m',
     assignee: 'Emily Nguyen',
-    updatedAt: 'May 15, 2025 1:44 PM',
+    updatedAt: '2025-05-15T13:44:00',
   },
   {
     id: '#12378',
@@ -266,7 +266,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.SLA_RISK,
     sla: '21m',
     assignee: 'David Kim',
-    updatedAt: 'May 15, 2025 12:31 PM',
+    updatedAt: '2025-05-15T12:31:00',
   },
   {
     id: '#12377',
@@ -277,7 +277,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.NEW,
     sla: '7h 05m',
     assignee: 'Sarah Lee',
-    updatedAt: 'May 15, 2025 11:08 AM',
+    updatedAt: '2025-05-15T11:08:00',
   },
   {
     id: '#12376',
@@ -288,7 +288,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.WAITING,
     sla: '1d 7h',
     assignee: 'Michael Chen',
-    updatedAt: 'May 14, 2025 5:52 PM',
+    updatedAt: '2025-05-14T17:52:00',
   },
   {
     id: '#12375',
@@ -299,7 +299,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.IN_PROGRESS,
     sla: '4h 25m',
     assignee: 'Emily Nguyen',
-    updatedAt: 'May 14, 2025 4:36 PM',
+    updatedAt: '2025-05-14T16:36:00',
   },
   {
     id: '#12374',
@@ -310,7 +310,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.IN_PROGRESS,
     sla: '1h 35m',
     assignee: 'David Kim',
-    updatedAt: 'May 14, 2025 3:15 PM',
+    updatedAt: '2025-05-14T15:15:00',
   },
   {
     id: '#12373',
@@ -321,7 +321,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.CLOSED,
     sla: 'Resolved',
     assignee: 'Sarah Lee',
-    updatedAt: 'May 14, 2025 2:19 PM',
+    updatedAt: '2025-05-14T14:19:00',
   },
   {
     id: '#12372',
@@ -332,7 +332,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.WAITING,
     sla: '3h 55m',
     assignee: 'Michael Chen',
-    updatedAt: 'May 14, 2025 1:03 PM',
+    updatedAt: '2025-05-14T13:03:00',
   },
   {
     id: '#12371',
@@ -343,7 +343,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.NEW,
     sla: '9h 10m',
     assignee: 'Emily Nguyen',
-    updatedAt: 'May 14, 2025 11:42 AM',
+    updatedAt: '2025-05-14T11:42:00',
   },
   {
     id: '#12370',
@@ -354,7 +354,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.SLA_RISK,
     sla: '33m',
     assignee: 'David Kim',
-    updatedAt: 'May 13, 2025 5:28 PM',
+    updatedAt: '2025-05-13T17:28:00',
   },
   {
     id: '#12369',
@@ -365,7 +365,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.CLOSED,
     sla: 'Resolved',
     assignee: 'Sarah Lee',
-    updatedAt: 'May 13, 2025 4:06 PM',
+    updatedAt: '2025-05-13T16:06:00',
   },
   {
     id: '#12368',
@@ -376,7 +376,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.WAITING,
     sla: '5h 20m',
     assignee: 'Michael Chen',
-    updatedAt: 'May 13, 2025 2:44 PM',
+    updatedAt: '2025-05-13T14:44:00',
   },
   {
     id: '#12367',
@@ -387,7 +387,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.IN_PROGRESS,
     sla: '2h 40m',
     assignee: 'Emily Nguyen',
-    updatedAt: 'May 13, 2025 1:18 PM',
+    updatedAt: '2025-05-13T13:18:00',
   },
   {
     id: '#12366',
@@ -398,7 +398,7 @@ const CASES: readonly ICase[] = [
     status: CaseStatus.NEW,
     sla: '1d 3h',
     assignee: 'David Kim',
-    updatedAt: 'May 13, 2025 11:57 AM',
+    updatedAt: '2025-05-13T11:57:00',
   },
 ];
 

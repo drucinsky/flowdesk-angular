@@ -58,7 +58,7 @@ export class CasesService {
       ...caseItem,
       status: CaseStatus.CLOSED,
       sla: 'Resolved',
-      updatedAt: 'Just now',
+      updatedAt: new Date().toISOString(),
     };
 
     this._cases = this._cases.map((item) => (item.id === caseId ? closedCase : item));
