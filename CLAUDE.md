@@ -44,6 +44,7 @@ paths:
 ## 5. Forms
 
 - **Signal Forms**: Prefer `@angular/forms/signals` for new forms (stable in v22+) for type-safe field access and schema-based validation.
+- **Form Schemas**: Define Signal Forms schemas (validation, debounce, disabled/hidden logic) in a separate `*.schema.ts` file using `schema<T>()` and pass it to `form()`. Export related constants (e.g., min lengths) from the same file. Do not inline schema functions in components or facades.
 - If not using Signal Forms, strictly use Reactive Forms. Never use Template-driven forms.
 
 ## 6. Templates & Styling
