@@ -1,6 +1,6 @@
-import { Injectable, computed, effect, inject, signal, untracked } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 
-import { areFiltersEqual } from '../../filters/table-filters.util';
+import { injectOnTableFiltersChange } from '../../table-filters-change.feature';
 import { injectTableState } from '../../table-state.feature';
 import { TABLE_SELECTION_OPTIONS } from './table-selection.tokens';
 import type { ITableSelectionOptions } from './table-selection-options.interface';
@@ -35,21 +35,9 @@ export class TableSelectionState<TRow> {
     return selectedCount > 0 && selectedCount < rows.length;
   });
 
-  private readonly _filters = computed(() => this._table.filters(), { equal: areFiltersEqual });
-  private _isFiltersTracked = false;
-
-  private readonly _clearOnFiltersChange = effect(() => {
-    this._filters();
-
-    if (!this._isFiltersTracked) {
-      this._isFiltersTracked = true;
-      return;
-    }
-
+  private readonly _clearOnFiltersChange = injectOnTableFiltersChange(() => {
     if ((this._options.clearOn ?? 'filters') === 'filters') {
-      untracked(() => {
-        this.clear();
-      });
+      this.clear();
     }
   });
 

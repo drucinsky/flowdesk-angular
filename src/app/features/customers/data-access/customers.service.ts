@@ -1,12 +1,14 @@
 import { Service } from '@angular/core';
-import { delay, of, type Observable } from 'rxjs';
+import { delay, of, throwError, type Observable } from 'rxjs';
 
 import type { ITableDataResult } from '../../../shared/table-state/models/table-data-result.interface';
 import type { ITableQuery } from '../../../shared/table-state/models/table-query.interface';
 import { type TableSortValue, paginateTableItems, sortTableItems } from '../../../shared/table-state/utils/mock-table-query.util';
+import type { ICustomerDetails } from '../models/customer-details.interface';
 import type { ICustomerFilters } from '../models/customer-filters.interface';
 import type { CustomerSortKey } from '../models/customer-sort-key.type';
 import type { ICustomer } from '../models/customer.interface';
+import { createCustomerDetails } from './customer-details.mock';
 import { CUSTOMERS_MOCK_DATA } from './customers.mock';
 
 const SORT_VALUE_GETTERS: Record<CustomerSortKey, (customer: ICustomer) => TableSortValue> = {
@@ -35,6 +37,16 @@ export class CustomersService {
       items: paginatedCustomers,
       total: filteredCustomers.length,
     }).pipe(delay(350));
+  }
+
+  getCustomerDetails(customerId: string): Observable<ICustomerDetails> {
+    const customer = CUSTOMERS_MOCK_DATA.find((item) => item.id === customerId);
+
+    if (!customer) {
+      return throwError(() => new Error(`Customer ${customerId} was not found.`));
+    }
+
+    return of(createCustomerDetails(customer)).pipe(delay(400));
   }
 
   private _filterCustomers(customers: readonly ICustomer[], filters: ICustomerFilters): readonly ICustomer[] {
