@@ -6,6 +6,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { type ISegmentTab, SegmentTabsComponent } from '../../../../shared/segment-tabs/segment-tabs.component';
 import { TableKey } from '../../../../shared/table-state/config/table-key.enum';
 import { TableSortDirection } from '../../../../shared/table-state/models/table-sort.interface';
+import { withSelection } from '../../../../shared/table-state/features/selection/with-selection.feature';
 import { provideTableState } from '../../../../shared/table-state/providers/provide-table-state';
 import { injectTableState } from '../../../../shared/table-state/table-state.feature';
 import { CustomersFiltersComponent } from '../../components/customers-filters/customers-filters.component';
@@ -20,16 +21,21 @@ import type { ICustomerTableRow } from '../../models/customer-table-row.interfac
   selector: 'fd-customers-page',
   imports: [NzButtonModule, NzIconModule, NzSpinModule, SegmentTabsComponent, CustomersFiltersComponent, CustomersTableComponent],
   providers: [
-    provideTableState<ICustomerTableRow, ICustomerFilters, CustomerSortKey>({
-      key: TableKey.CUSTOMERS,
-      defaultFilters: DEFAULT_CUSTOMER_FILTERS,
-      defaultPageSize: 10,
-      defaultSort: {
-        key: 'lastActivityAt',
-        direction: TableSortDirection.DESC,
+    provideTableState<ICustomerTableRow, ICustomerFilters, CustomerSortKey>(
+      {
+        key: TableKey.CUSTOMERS,
+        defaultFilters: DEFAULT_CUSTOMER_FILTERS,
+        defaultPageSize: 10,
+        defaultSort: {
+          key: 'lastActivityAt',
+          direction: TableSortDirection.DESC,
+        },
+        dataSource: CustomersTableDataSource,
       },
-      dataSource: CustomersTableDataSource,
-    }),
+      withSelection<ICustomerTableRow>({
+        rowKey: (row) => row.id,
+      }),
+    ),
   ],
   templateUrl: './customers-page.component.html',
   styleUrl: './customers-page.component.scss',

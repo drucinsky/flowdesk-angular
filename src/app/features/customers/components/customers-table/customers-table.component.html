@@ -3,6 +3,7 @@
     #customersTable
     class="fd-data-table"
     fdTableState
+    [nzFrontPagination]="false"
     [nzData]="table.items()"
     [nzLoading]="table.isLoading()"
     [nzTotal]="table.total()"
@@ -12,6 +13,15 @@
   >
     <thead>
       <tr>
+        <th
+          nzShowCheckbox
+          nzLeft
+          nzLabel="Select all customers on this page"
+          [nzWidth]="'48px'"
+          [nzChecked]="selection.isPageAllSelected()"
+          [nzIndeterminate]="selection.isPageIndeterminate()"
+          (nzCheckedChange)="selection.togglePage($event)"
+        ></th>
         <th [nzWidth]="'320px'" [fdTableSort]="'company'">Customer</th>
         <th [nzWidth]="'130px'" [fdTableSort]="'plan'">Plan</th>
         <th [nzWidth]="'140px'" [fdTableSort]="'status'">Status</th>
@@ -25,7 +35,16 @@
 
     <tbody>
       @for (customer of customersTable.data; track customer.id) {
-        <tr>
+        <tr [class.fd-row-selected]="selection.isSelected(customer)">
+          <td
+            nzShowCheckbox
+            nzLeft
+            [nzLabel]="'Select ' + customer.company"
+            [nzChecked]="selection.isSelected(customer)"
+            [nzDisabled]="!selection.isSelectable(customer)"
+            (nzCheckedChange)="selection.toggle(customer, $event)"
+          ></td>
+
           <td>
             <div class="flex min-w-0 items-center gap-3">
               <nz-avatar class="customer-avatar" aria-hidden="true" [nzText]="customer.initials" />
@@ -61,4 +80,6 @@
       }
     </tbody>
   </nz-table>
+
+  <fd-table-selection-bar />
 </section>

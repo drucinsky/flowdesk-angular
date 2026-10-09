@@ -1,0 +1,32 @@
+:host {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 72px;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.selection-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 8px 8px 20px;
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius-full);
+  background: var(--fd-surface);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16);
+  pointer-events: auto;
+}
+
+.selection-bar__count {
+  color: var(--fd-primary);
+  font-size: 14px;
+}
+
+.selection-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

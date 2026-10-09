@@ -1,0 +1,17 @@
+<span class="sr-only" aria-live="polite">
+  @if (selection.hasSelection()) {
+    {{ selection.count() }} selected
+  }
+</span>
+
+@if (selection.hasSelection()) {
+  <div class="selection-bar" role="toolbar" aria-label="Bulk actions">
+    <strong class="selection-bar__count">{{ selection.count() }} selected</strong>
+
+    <div class="selection-bar__actions">
+      <ng-content />
+    </div>
+
+    <button nz-button nzType="text" type="button" (click)="selection.clear()">Clear selection</button>
+  </div>
+}

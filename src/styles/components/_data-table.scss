@@ -1,4 +1,5 @@
 .fd-data-table-card {
+  position: relative;
   display: flex;
   min-height: 0;
   flex: 1;
@@ -97,4 +98,8 @@
   color: var(--fd-primary);
   content: '↓';
   opacity: 1;
+}
+
+.fd-data-table .fd-row-selected > td {
+  background: var(--fd-primary-soft);
 }
