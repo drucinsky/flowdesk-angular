@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  height: 100%;
+  min-height: 0;
+}
+
+.customers-page {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.customers-table-wrapper {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+}

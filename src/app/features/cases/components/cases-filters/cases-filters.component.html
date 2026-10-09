@@ -26,10 +26,9 @@
   </nz-select>
 
   <nz-select class="filter-select" nzAllowClear nzPlaceHolder="Assignee" aria-label="Filter by assignee" [formField]="filtersForm.assignee">
-    <nz-option nzValue="Sarah Lee" nzLabel="Sarah Lee" />
-    <nz-option nzValue="Michael Chen" nzLabel="Michael Chen" />
-    <nz-option nzValue="Emily Nguyen" nzLabel="Emily Nguyen" />
-    <nz-option nzValue="David Kim" nzLabel="David Kim" />
+    @for (member of teamMembers; track member) {
+      <nz-option [nzValue]="member" [nzLabel]="member" />
+    }
   </nz-select>
 
   <button nz-button type="button">

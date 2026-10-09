@@ -1,0 +1,27 @@
+<section class="customers-page">
+  <div class="flex items-start justify-between gap-6">
+    <div>
+      <h1 class="m-0 text-3xl font-bold tracking-tight text-slate-950">Customers</h1>
+      <p class="mt-2 text-sm text-slate-500">Manage accounts, plans and account owners.</p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button nz-button nzType="primary" type="button">
+        <i nz-icon nzType="plus"></i>
+        Add customer
+      </button>
+    </div>
+  </div>
+
+  <fd-segment-tabs label="Customer status" [tabs]="statusTabs" [value]="table.filters().status" (valueChange)="updateStatus($event)" />
+
+  <fd-customers-filters [filters]="table.filters()" (filtersChange)="table.updateFilters($event)" />
+
+  @if (table.isInitialLoading()) {
+    <div class="flex min-h-80 items-center justify-center rounded-2xl border border-slate-200 bg-white">
+      <nz-spin nzSize="large" />
+    </div>
+  } @else {
+    <fd-customers-table class="customers-table-wrapper" />
+  }
+</section>

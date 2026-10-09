@@ -2,7 +2,7 @@ import { Service } from '@angular/core';
 import { delay, of, throwError, type Observable } from 'rxjs';
 
 import { CASES_MOCK_DATA } from './cases.mock';
-import { TableSortDirection } from '../../../shared/table-state/models/table-sort.interface';
+import { type TableSortValue, paginateTableItems, sortTableItems } from '../../../shared/table-state/utils/mock-table-query.util';
 import type { ITableDataResult } from '../../../shared/table-state/models/table-data-result.interface';
 import type { ITableQuery } from '../../../shared/table-state/models/table-query.interface';
 import type { CaseSortKey } from '../models/case-sort-key.type';
@@ -10,9 +10,7 @@ import type { ICaseFilters } from '../models/case-filters.interface';
 import type { ICase } from '../models/case.interface';
 import { CaseStatus } from '../models/case-status.enum';
 
-type SortValue = string | number;
-
-const SORT_VALUE_GETTERS: Record<CaseSortKey, (caseItem: ICase) => SortValue> = {
+const SORT_VALUE_GETTERS: Record<CaseSortKey, (caseItem: ICase) => TableSortValue> = {
   id: (caseItem) => Number(caseItem.id.replace('#', '')),
   customer: (caseItem) => caseItem.customer.toLowerCase(),
   category: (caseItem) => caseItem.category,
@@ -36,8 +34,8 @@ export class CasesService {
 
   getCasesData(query: ITableQuery<ICaseFilters, CaseSortKey>): Observable<ITableDataResult<ICase>> {
     const filteredCases = this._filterCases(this._cases, query);
-    const sortedCases = this._sortCases(filteredCases, query);
-    const paginatedCases = this._paginateCases(sortedCases, query);
+    const sortedCases = sortTableItems(filteredCases, query.sort, SORT_VALUE_GETTERS);
+    const paginatedCases = paginateTableItems(sortedCases, query.pageIndex, query.pageSize);
 
     return of({
       items: paginatedCases,
@@ -80,36 +78,5 @@ export class CasesService {
 
       return matchesSearch && matchesStatus && matchesPriority && matchesAssignee;
     });
-  }
-
-  private _sortCases(cases: readonly ICase[], query: ITableQuery<ICaseFilters, CaseSortKey>): readonly ICase[] {
-    if (!query.sort) {
-      return cases;
-    }
-
-    const sortMultiplier = query.sort.direction === TableSortDirection.ASC ? 1 : -1;
-    const getSortValue = SORT_VALUE_GETTERS[query.sort.key];
-
-    return [...cases].sort((firstCase, secondCase) => {
-      const firstValue = getSortValue(firstCase);
-      const secondValue = getSortValue(secondCase);
-
-      return this._compareValues(firstValue, secondValue) * sortMultiplier;
-    });
-  }
-
-  private _paginateCases(cases: readonly ICase[], query: ITableQuery<ICaseFilters, CaseSortKey>): readonly ICase[] {
-    const start = (query.pageIndex - 1) * query.pageSize;
-    const end = start + query.pageSize;
-
-    return cases.slice(start, end);
-  }
-
-  private _compareValues(firstValue: SortValue, secondValue: SortValue): number {
-    if (typeof firstValue === 'number' && typeof secondValue === 'number') {
-      return firstValue - secondValue;
-    }
-
-    return String(firstValue).localeCompare(String(secondValue));
   }
 }

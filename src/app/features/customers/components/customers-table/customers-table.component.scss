@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+}
+
+.customer-avatar {
+  flex: 0 0 auto;
+  background: var(--fd-primary-soft);
+  color: var(--fd-primary);
+  font-weight: 700;
+}

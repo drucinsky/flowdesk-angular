@@ -1,0 +1,32 @@
+<section class="fd-filters-card">
+  <div class="fd-search-control">
+    <span nz-icon nzType="search"></span>
+    <input
+      nz-input
+      type="text"
+      placeholder="Search by name, email, company..."
+      aria-label="Search customers"
+      [formField]="filtersForm.search"
+    />
+  </div>
+
+  <nz-select class="fd-filter-select" nzAllowClear nzPlaceHolder="Plan" aria-label="Filter by plan" [formField]="filtersForm.plan">
+    <nz-option [nzValue]="customerPlan.FREE" nzLabel="Free" />
+    <nz-option [nzValue]="customerPlan.PRO" nzLabel="Pro" />
+    <nz-option [nzValue]="customerPlan.ENTERPRISE" nzLabel="Enterprise" />
+  </nz-select>
+
+  <nz-select class="fd-filter-select" nzAllowClear nzPlaceHolder="Owner" aria-label="Filter by owner" [formField]="filtersForm.owner">
+    @for (member of teamMembers; track member) {
+      <nz-option [nzValue]="member" [nzLabel]="member" />
+    }
+  </nz-select>
+
+  <nz-select class="fd-filter-select" nzAllowClear nzPlaceHolder="Country" aria-label="Filter by country" [formField]="filtersForm.country">
+    @for (country of countries; track country) {
+      <nz-option [nzValue]="country" [nzLabel]="country" />
+    }
+  </nz-select>
+
+  <button nz-button type="button" (click)="resetFilters()">Reset</button>
+</section>

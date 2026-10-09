@@ -75,6 +75,14 @@
   transform: translateY(-50%);
 }
 
+/* Right-aligned headers (e.g. numeric columns): keep the indicator in the text flow, after the label. */
+.fd-sortable-th.fd-th-end::after {
+  position: static;
+  display: inline-block;
+  margin-left: 6px;
+  transform: none;
+}
+
 .fd-sortable-th:hover::after {
   opacity: 0.75;
 }
