@@ -6,6 +6,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { type ISegmentTab, SegmentTabsComponent } from '../../../../shared/segment-tabs/segment-tabs.component';
 import { TableKey } from '../../../../shared/table-state/config/table-key.enum';
 import { TableSortDirection } from '../../../../shared/table-state/models/table-sort.interface';
+import { injectTableExport } from '../../../../shared/table-state/features/export/table-export.feature';
 import { withRowExpansion } from '../../../../shared/table-state/features/row-expansion/with-row-expansion.feature';
 import { withSelection } from '../../../../shared/table-state/features/selection/with-selection.feature';
 import { provideTableState } from '../../../../shared/table-state/providers/provide-table-state';
@@ -13,6 +14,7 @@ import { injectTableState } from '../../../../shared/table-state/table-state.fea
 import { CustomersFiltersComponent } from '../../components/customers-filters/customers-filters.component';
 import { CustomersTableComponent } from '../../components/customers-table/customers-table.component';
 import { CustomersTableDataSource } from '../../data-access/customers-table-data-source.service';
+import { CUSTOMERS_EXPORT_COLUMNS } from '../../export/customers-export.columns';
 import { DEFAULT_CUSTOMER_FILTERS, type ICustomerFilters } from '../../models/customer-filters.interface';
 import type { CustomerSortKey } from '../../models/customer-sort-key.type';
 import { CustomerStatus } from '../../models/customer-status.enum';
@@ -47,6 +49,10 @@ import type { ICustomerTableRow } from '../../models/customer-table-row.interfac
 })
 export class CustomersPageComponent {
   protected readonly table = injectTableState<ICustomerTableRow, ICustomerFilters, CustomerSortKey>();
+  protected readonly exporter = injectTableExport<ICustomerTableRow, ICustomerFilters, CustomerSortKey>({
+    fileName: 'customers',
+    columns: CUSTOMERS_EXPORT_COLUMNS,
+  });
 
   protected readonly statusTabs: readonly ISegmentTab<CustomerStatus>[] = [
     { label: 'All', value: null },

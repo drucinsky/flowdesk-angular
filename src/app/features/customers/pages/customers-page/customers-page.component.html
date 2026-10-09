@@ -6,6 +6,11 @@
     </div>
 
     <div class="flex items-center gap-3">
+      <button nz-button type="button" [nzLoading]="exporter.isExporting()" (click)="exporter.exportCsv()">
+        <i nz-icon nzType="export"></i>
+        Export
+      </button>
+
       <button nz-button nzType="primary" type="button">
         <i nz-icon nzType="plus"></i>
         Add customer

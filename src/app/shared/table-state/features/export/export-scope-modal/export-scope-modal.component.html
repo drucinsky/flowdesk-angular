@@ -1,0 +1,23 @@
+<section class="flex flex-col gap-4">
+  <fieldset class="m-0 border-0 p-0">
+    <legend class="mb-3 p-0 text-sm text-slate-600">Choose which rows to export to a CSV file.</legend>
+
+    <!-- nz-radio renders its own <input type="radio"> inside the label, which the rule cannot see. -->
+    <!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
+    <nz-radio-group class="flex flex-col gap-3" [formField]="form.scope">
+      <label nz-radio nzValue="page">Current page ({{ data.pageCount }} rows)</label>
+      <label nz-radio nzValue="all">All matching filters ({{ data.totalCount }} rows)</label>
+      <label nz-radio nzValue="selected" [nzDisabled]="data.selectedCount === 0">Selected ({{ data.selectedCount }} rows)</label>
+    </nz-radio-group>
+    <!-- eslint-enable @angular-eslint/template/label-has-associated-control -->
+  </fieldset>
+
+  @if (data.totalCount > data.maxRows) {
+    <p class="m-0 text-xs text-slate-500">Exporting all rows is limited to the first {{ data.maxRows }} rows.</p>
+  }
+
+  <footer class="flex justify-end gap-3">
+    <button nz-button type="button" (click)="cancel()">Cancel</button>
+    <button nz-button nzType="primary" type="button" (click)="confirm()">Export</button>
+  </footer>
+</section>

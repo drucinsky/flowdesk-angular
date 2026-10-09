@@ -71,6 +71,8 @@ export function mapCustomerToTableRow(customer: ICustomer): ICustomerTableRow {
     owner: customer.owner,
     openCases: customer.openCases,
     mrr: MRR_FORMATTER.format(customer.mrr),
+    mrrValue: customer.mrr,
     lastActivityAt: LAST_ACTIVITY_FORMATTER.format(new Date(customer.lastActivityAt)),
+    lastActivityAtValue: customer.lastActivityAt,
   };
 }
