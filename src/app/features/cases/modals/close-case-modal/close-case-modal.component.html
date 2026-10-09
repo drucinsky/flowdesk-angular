@@ -4,28 +4,41 @@
     >. Add a short reason so the action is auditable.
   </p>
 
-  <form class="close-case-modal__form" [formGroup]="facade.form">
+  @let reason = facade.form.reason();
+
+  <form class="close-case-modal__form" novalidate>
     <label class="close-case-modal__field">
       <span class="close-case-modal__label">Close reason</span>
 
       <textarea
         nz-input
-        formControlName="reason"
         rows="4"
         placeholder="Example: customer confirmed that the issue has been resolved"
+        aria-describedby="close-case-reason-error"
+        [attr.aria-invalid]="reason.touched() && reason.invalid()"
+        [formField]="facade.form.reason"
       ></textarea>
     </label>
 
-    @if (facade.form.controls.reason.touched && facade.form.controls.reason.hasError('required')) {
-      <p class="close-case-modal__error">Close reason is required.</p>
-    }
-
-    @if (facade.form.controls.reason.touched && facade.form.controls.reason.hasError('minlength')) {
-      <p class="close-case-modal__error">Close reason should have at least 5 characters.</p>
-    }
+    <div id="close-case-reason-error" role="alert">
+      @if (reason.touched()) {
+        @if (reason.errors()[0]; as error) {
+          <p class="close-case-modal__error">
+            @switch (error.kind) {
+              @case ('required') {
+                Close reason is required.
+              }
+              @case ('minLength') {
+                Close reason should have at least {{ closeReasonMinLength }} characters.
+              }
+            }
+          </p>
+        }
+      }
+    </div>
 
     <label class="close-case-modal__checkbox">
-      <input type="checkbox" formControlName="notifyClient" />
+      <input type="checkbox" [formField]="facade.form.notifyClient" />
       <span>Notify customer about closing this case</span>
     </label>
   </form>
