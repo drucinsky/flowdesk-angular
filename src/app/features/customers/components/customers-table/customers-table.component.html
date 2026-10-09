@@ -22,7 +22,24 @@
           [nzIndeterminate]="selection.isPageIndeterminate()"
           (nzCheckedChange)="selection.togglePage($event)"
         ></th>
-        <th nzLeft [nzWidth]="'48px'"><span class="sr-only">Expand details</span></th>
+        <th nzLeft [nzWidth]="'48px'">
+          @if (expansion.count() > 0) {
+            <button
+              nz-button
+              nz-tooltip
+              nzType="text"
+              nzSize="small"
+              nzTooltipTitle="Collapse all"
+              type="button"
+              aria-label="Collapse all expanded rows"
+              (click)="expansion.collapseAll()"
+            >
+              <i nz-icon nzType="up" aria-hidden="true"></i>
+            </button>
+          } @else {
+            <span class="sr-only">Expand details</span>
+          }
+        </th>
         <th [nzWidth]="'320px'" [fdTableSort]="'company'">Customer</th>
         <th [nzWidth]="'130px'" [fdTableSort]="'plan'">Plan</th>
         <th [nzWidth]="'140px'" [fdTableSort]="'status'">Status</th>
