@@ -6,6 +6,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { SegmentTabsComponent } from '../../../../shared/segment-tabs/segment-tabs.component';
 import { TableKey } from '../../../../shared/table-state/config/table-key.enum';
 import { TableSortDirection } from '../../../../shared/table-state/models/table-sort.interface';
+import { withInlineEdit } from '../../../../shared/table-state/features/inline-edit/with-inline-edit.feature';
 import { withRowExpansion } from '../../../../shared/table-state/features/row-expansion/with-row-expansion.feature';
 import { withSelection } from '../../../../shared/table-state/features/selection/with-selection.feature';
 import { provideTableState } from '../../../../shared/table-state/providers/provide-table-state';
@@ -38,6 +39,9 @@ import type { ICustomerTableRow } from '../../models/customer-table-row.interfac
       withRowExpansion<ICustomerTableRow>({
         rowKey: (row) => row.id,
         mode: 'multiple',
+      }),
+      withInlineEdit<ICustomerTableRow>({
+        rowKey: (row) => row.id,
       }),
     ),
     CustomersFacade,

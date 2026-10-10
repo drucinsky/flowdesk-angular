@@ -8,6 +8,7 @@ import type { ICustomersDeleteResult } from '../models/customers-delete-result.i
 import type { ICustomerDetails } from '../models/customer-details.interface';
 import type { ICustomerFilters } from '../models/customer-filters.interface';
 import type { CustomerSortKey } from '../models/customer-sort-key.type';
+import type { ICustomerUpdate } from '../models/customer-update.interface';
 import type { ICustomer } from '../models/customer.interface';
 import { createCustomerDetails } from './customer-details.mock';
 import { CUSTOMERS_MOCK_DATA } from './customers.mock';
@@ -74,6 +75,23 @@ export class CustomersService {
     this._customers = this._customers.filter((customer) => !deletedIds.includes(customer.id));
 
     return of({ deletedIds, failed }).pipe(delay(600));
+  }
+
+  /**
+   * Mocked update of the inline-editable fields.
+   */
+  updateCustomer(customerId: string, update: ICustomerUpdate): Observable<ICustomer> {
+    const customer = this._customers.find((item) => item.id === customerId);
+
+    if (!customer) {
+      return throwError(() => new Error(`Customer ${customerId} was not found.`));
+    }
+
+    const updatedCustomer: ICustomer = { ...customer, ...update };
+
+    this._customers = this._customers.map((item) => (item.id === customerId ? updatedCustomer : item));
+
+    return of(updatedCustomer).pipe(delay(500));
   }
 
   private _filterCustomers(customers: readonly ICustomer[], filters: ICustomerFilters): readonly ICustomer[] {

@@ -1,3 +1,4 @@
+import { type CustomerPlan } from './customer-plan.enum';
 import { type CustomerStatus } from './customer-status.enum';
 
 export interface ICustomerTableTag {
@@ -13,6 +14,7 @@ export interface ICustomerTableRow {
   readonly email: string;
   readonly country: string;
   readonly plan: ICustomerTableTag;
+  readonly planValue: CustomerPlan;
   readonly status: ICustomerTableTag;
   readonly statusValue: CustomerStatus;
   readonly owner: string;
