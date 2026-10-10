@@ -66,6 +66,7 @@ export function mapCustomerToTableRow(customer: ICustomer): ICustomerTableRow {
     email: customer.email,
     country: customer.country,
     plan: PLAN_TAG_CONFIG[customer.plan],
+    planValue: customer.plan,
     status: STATUS_TAG_CONFIG[customer.status],
     statusValue: customer.status,
     owner: customer.owner,

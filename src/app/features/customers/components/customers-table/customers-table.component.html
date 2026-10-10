@@ -48,6 +48,7 @@
         <th [nzWidth]="'130px'" nzAlign="right" class="fd-th-end" [fdTableSort]="'openCases'">Open cases</th>
         <th [nzWidth]="'120px'" nzAlign="right" class="fd-th-end" [fdTableSort]="'mrr'">MRR</th>
         <th [nzWidth]="'200px'" [fdTableSort]="'lastActivityAt'">Last activity</th>
+        <th nzRight [nzWidth]="'110px'"><span class="sr-only">Actions</span></th>
       </tr>
     </thead>
 
@@ -93,9 +94,17 @@
           </td>
 
           <td>
-            <nz-tag [nzColor]="customer.plan.color">
-              {{ customer.plan.label }}
-            </nz-tag>
+            @if (facade.inlineEdit.isEditing(customer)) {
+              <nz-select class="w-full" nzAutoFocus [attr.aria-label]="'Plan for ' + customer.company" [formField]="facade.editForm.plan">
+                @for (option of facade.planOptions; track option.value) {
+                  <nz-option [nzValue]="option.value" [nzLabel]="option.label" />
+                }
+              </nz-select>
+            } @else {
+              <nz-tag [nzColor]="customer.plan.color">
+                {{ customer.plan.label }}
+              </nz-tag>
+            }
           </td>
 
           <td>
@@ -104,11 +113,70 @@
             </nz-tag>
           </td>
 
-          <td>{{ customer.owner }}</td>
+          <td>
+            @if (facade.inlineEdit.isEditing(customer)) {
+              <nz-select class="w-full" [attr.aria-label]="'Owner for ' + customer.company" [formField]="facade.editForm.owner">
+                @for (member of facade.teamMembers; track member) {
+                  <nz-option [nzValue]="member" [nzLabel]="member" />
+                }
+              </nz-select>
+            } @else {
+              {{ customer.owner }}
+            }
+          </td>
           <td>{{ customer.country }}</td>
           <td nzAlign="right">{{ customer.openCases }}</td>
           <td nzAlign="right">{{ customer.mrr }}</td>
           <td>{{ customer.lastActivityAt }}</td>
+
+          <td nzRight>
+            @if (facade.inlineEdit.isEditing(customer)) {
+              <div class="flex items-center gap-1">
+                <button
+                  nz-button
+                  nz-tooltip
+                  nzType="primary"
+                  nzSize="small"
+                  type="button"
+                  nzTooltipTitle="Save"
+                  [attr.aria-label]="'Save changes for ' + customer.company"
+                  [nzLoading]="facade.isSaving()"
+                  [disabled]="facade.editForm().invalid()"
+                  (click)="facade.saveEdit()"
+                >
+                  <i nz-icon nzType="check" aria-hidden="true"></i>
+                </button>
+                <button
+                  nz-button
+                  nz-tooltip
+                  nzType="text"
+                  nzSize="small"
+                  type="button"
+                  nzTooltipTitle="Cancel"
+                  [attr.aria-label]="'Cancel editing ' + customer.company"
+                  [disabled]="facade.isSaving()"
+                  (click)="facade.cancelEdit()"
+                >
+                  <i nz-icon nzType="close" aria-hidden="true"></i>
+                </button>
+              </div>
+            } @else {
+              <button
+                nz-button
+                nz-tooltip
+                nzType="text"
+                nzSize="small"
+                type="button"
+                nzTooltipTitle="Edit plan and owner"
+                [id]="editButtonIdPrefix + customer.id"
+                [attr.aria-label]="'Edit ' + customer.company"
+                [disabled]="facade.isSaving()"
+                (click)="facade.startEdit(customer)"
+              >
+                <i nz-icon nzType="edit" aria-hidden="true"></i>
+              </button>
+            }
+          </td>
         </tr>
 
         <tr [nzExpand]="facade.expansion.isExpanded(customer)" [id]="'customer-details-' + customer.id">
