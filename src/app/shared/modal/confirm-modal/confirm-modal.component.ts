@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
+import { injectModal } from '../composables/modal.composable';
 import type { IConfirmModalData, IConfirmModalResult } from './confirm-modal.types';
 
 @Component({
@@ -11,15 +11,15 @@ import type { IConfirmModalData, IConfirmModalResult } from './confirm-modal.typ
   styleUrl: './confirm-modal.component.scss',
 })
 export class ConfirmModalComponent {
-  private readonly _modalRef = inject<NzModalRef<unknown, IConfirmModalResult>>(NzModalRef);
+  private readonly _modal = injectModal<IConfirmModalData, IConfirmModalResult>();
 
-  protected readonly data = inject<IConfirmModalData>(NZ_MODAL_DATA);
+  protected readonly data = this._modal.data;
 
   protected cancel(): void {
-    this._modalRef.close();
+    this._modal.close();
   }
 
   protected confirm(): void {
-    this._modalRef.close({ confirmed: true });
+    this._modal.close({ confirmed: true });
   }
 }

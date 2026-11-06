@@ -1,7 +1,10 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { DestroyRef, Injectable, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { form } from '@angular/forms/signals';
-import { finalize, map, type Observable } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { finalize } from 'rxjs';
 
+import { injectModal } from '../../../../shared/modal/composables/modal.composable';
 import { CasesService } from '../../data-access/cases.service';
 import { CLOSE_CASE_FORM_SCHEMA } from './close-case-modal.schema';
 import { type ICloseCaseFormValue, type ICloseCaseModalData, type ICloseCaseModalResult } from './close-case-modal.types';
@@ -9,7 +12,11 @@ import { type ICloseCaseFormValue, type ICloseCaseModalData, type ICloseCaseModa
 @Injectable()
 export class CloseCaseModalFacade {
   private readonly _casesService = inject(CasesService);
+  private readonly _message = inject(NzMessageService);
+  private readonly _destroyRef = inject(DestroyRef);
+  private readonly _modal = injectModal<ICloseCaseModalData, ICloseCaseModalResult>({ isBusy: () => this.loading() });
 
+  readonly data = this._modal.data;
   readonly loading = signal(false);
 
   private readonly _formValue = signal<ICloseCaseFormValue>({
@@ -19,19 +26,39 @@ export class CloseCaseModalFacade {
 
   readonly form = form(this._formValue, CLOSE_CASE_FORM_SCHEMA);
 
-  closeCase(data: ICloseCaseModalData): Observable<ICloseCaseModalResult> {
-    const formValue = this._formValue();
+  cancel(): void {
+    this._modal.close();
+  }
+
+  submit(): void {
+    if (this.loading()) {
+      return;
+    }
+
+    if (this.form().invalid()) {
+      this.form().markAsTouched();
+      return;
+    }
+
+    const { reason, notifyClient } = this._formValue();
 
     this.loading.set(true);
 
-    return this._casesService.closeCase(data.caseId, formValue.reason, formValue.notifyClient).pipe(
-      map((closedCase) => ({
-        closed: true,
-        caseId: closedCase.id,
-      })),
-      finalize(() => {
-        this.loading.set(false);
-      }),
-    );
+    this._casesService
+      .closeCase(this.data.caseId, reason, notifyClient)
+      .pipe(
+        finalize(() => {
+          this.loading.set(false);
+        }),
+        takeUntilDestroyed(this._destroyRef),
+      )
+      .subscribe({
+        next: (closedCase) => {
+          this._modal.close({ closed: true, caseId: closedCase.id });
+        },
+        error: () => {
+          this._message.error('Could not close the case. Please try again.');
+        },
+      });
   }
 }

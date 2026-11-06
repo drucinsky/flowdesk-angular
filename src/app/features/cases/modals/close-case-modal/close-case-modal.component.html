@@ -44,9 +44,9 @@
   </form>
 
   <footer class="close-case-modal__actions">
-    <button nz-button type="button" [disabled]="facade.loading()" (click)="cancel()">Cancel</button>
+    <button nz-button type="button" [disabled]="facade.loading()" (click)="facade.cancel()">Cancel</button>
 
-    <button nz-button nzType="primary" type="button" [disabled]="facade.loading()" (click)="confirm()">
+    <button nz-button nzType="primary" type="button" [disabled]="facade.loading()" (click)="facade.submit()">
       @if (facade.loading()) {
         Closing...
       } @else {

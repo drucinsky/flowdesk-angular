@@ -1,13 +1,10 @@
-import { Component, DestroyRef, effect, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CloseCaseModalFacade } from './close-case-modal.facade';
-import { CLOSE_REASON_MIN_LENGTH } from './close-case-modal.schema';
+import { Component, inject } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import type { ICloseCaseModalData, ICloseCaseModalResult } from './close-case-modal.types';
-import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
+
+import { CloseCaseModalFacade } from './close-case-modal.facade';
+import { CLOSE_REASON_MIN_LENGTH } from './close-case-modal.schema';
 
 @Component({
   selector: 'fd-close-case-modal',
@@ -17,45 +14,7 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
   providers: [CloseCaseModalFacade],
 })
 export class CloseCaseModalComponent {
-  private readonly _modalRef = inject<NzModalRef<unknown, ICloseCaseModalResult>>(NzModalRef);
-
-  private readonly _message = inject(NzMessageService);
-  private readonly _destroyRef = inject(DestroyRef);
-
-  protected readonly data = inject<ICloseCaseModalData>(NZ_MODAL_DATA);
   protected readonly facade = inject(CloseCaseModalFacade);
+  protected readonly data = this.facade.data;
   protected readonly closeReasonMinLength = CLOSE_REASON_MIN_LENGTH;
-
-  // nzOkLoading also makes NzModal ignore the Esc key and mask clicks while the request is pending.
-  private readonly _lockModalWhileLoading = effect(() => {
-    const isLoading = this.facade.loading();
-
-    this._modalRef.updateConfig({
-      nzOkLoading: isLoading,
-      nzClosable: !isLoading,
-    });
-  });
-
-  protected cancel(): void {
-    this._modalRef.close();
-  }
-
-  protected confirm(): void {
-    if (this.facade.form().invalid()) {
-      this.facade.form().markAsTouched();
-      return;
-    }
-
-    this.facade
-      .closeCase(this.data)
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe({
-        next: (result) => {
-          this._modalRef.close(result);
-        },
-        error: () => {
-          this._message.error('Could not close the case. Please try again.');
-        },
-      });
-  }
 }

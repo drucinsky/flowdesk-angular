@@ -14,6 +14,6 @@ export class ConfirmDialogService {
    * Completes without a value when another modal blocks opening it.
    */
   confirm(data: IConfirmModalData): Observable<boolean> {
-    return this._modal.open(CONFIRM_MODAL, data, { title: data.title }).pipe(map((result) => result?.confirmed === true));
+    return this._modal.open(CONFIRM_MODAL, data).pipe(map((result) => result?.confirmed === true));
   }
 }
