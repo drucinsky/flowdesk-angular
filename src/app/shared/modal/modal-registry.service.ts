@@ -10,6 +10,15 @@ export class ModalRegistryService {
     return this._refs.has(key);
   }
 
+  /** Returns the key of an open modal that prevents opening `key` (the same modal or one of its dependencies), or `null`. */
+  getBlockingKey(key: string, dependencies: readonly string[] = []): string | null {
+    if (this.has(key)) {
+      return key;
+    }
+
+    return dependencies.find((dependency) => this.has(dependency)) ?? null;
+  }
+
   register(key: string, ref: NzModalRef): void {
     this._refs.set(key, ref);
 

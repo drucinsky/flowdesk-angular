@@ -1,9 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormField, form } from '@angular/forms/signals';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 
+import { injectModal } from '../../../../modal/composables/modal.composable';
 import type { IExportScopeFormValue, IExportScopeModalData, IExportScopeModalResult } from './export-scope-modal.types';
 
 @Component({
@@ -13,9 +13,9 @@ import type { IExportScopeFormValue, IExportScopeModalData, IExportScopeModalRes
   styleUrl: './export-scope-modal.component.scss',
 })
 export class ExportScopeModalComponent {
-  private readonly _modalRef = inject<NzModalRef<unknown, IExportScopeModalResult>>(NzModalRef);
+  private readonly _modal = injectModal<IExportScopeModalData, IExportScopeModalResult>();
 
-  protected readonly data = inject<IExportScopeModalData>(NZ_MODAL_DATA);
+  protected readonly data = this._modal.data;
 
   private readonly _formValue = signal<IExportScopeFormValue>({
     scope: this.data.selectedCount > 0 ? 'selected' : 'page',
@@ -24,10 +24,10 @@ export class ExportScopeModalComponent {
   protected readonly form = form(this._formValue);
 
   protected cancel(): void {
-    this._modalRef.close();
+    this._modal.close();
   }
 
   protected confirm(): void {
-    this._modalRef.close({ scope: this._formValue().scope });
+    this._modal.close({ scope: this._formValue().scope });
   }
 }

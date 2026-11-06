@@ -14,7 +14,8 @@ import { TableSortDirection } from '../../../../shared/table-state/models/table-
 import { provideTableState } from '../../../../shared/table-state/providers/provide-table-state';
 import { injectTableState } from '../../../../shared/table-state/table-state.feature';
 import type { ICaseTableRow } from '../../models/case-table-row.interface';
-import { CloseCaseModalService } from '../../modals/close-case-modal';
+import { AppModalService } from '../../../../shared/modal/app-modal.service';
+import { CLOSE_CASE_MODAL } from '../../modals/close-case-modal';
 import { type ICaseTableActionEvent } from '../../models/case-table-action-event.interface';
 
 @Component({
@@ -37,7 +38,7 @@ import { type ICaseTableActionEvent } from '../../models/case-table-action-event
 })
 export class CasesPageComponent {
   protected readonly table = injectTableState<ICaseTableRow, ICaseFilters, CaseSortKey>();
-  private readonly _closeCaseModal = inject(CloseCaseModalService);
+  private readonly _modal = inject(AppModalService);
 
   protected updateStatus(status: CaseStatus | null): void {
     this.table.updateFilters({
@@ -52,8 +53,8 @@ export class CasesPageComponent {
   }
 
   private _openCloseCaseModal(item: ICaseTableRow): void {
-    this._closeCaseModal
-      .open({
+    this._modal
+      .open(CLOSE_CASE_MODAL, {
         caseId: item.id,
         caseNumber: item.id,
         currentStatus: item.statusValue,
