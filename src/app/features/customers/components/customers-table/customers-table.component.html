@@ -1,197 +1,112 @@
-<section class="fd-data-table-card">
-  <nz-table
-    #customersTable
-    class="fd-data-table"
-    fdTableState
-    [nzFrontPagination]="false"
-    [nzData]="facade.table.items()"
-    [nzLoading]="facade.table.isLoading()"
-    [nzTotal]="facade.table.total()"
-    [nzPageIndex]="facade.table.pageIndex()"
-    [nzPageSize]="facade.table.pageSize()"
-    [nzScroll]="facade.table.scroll()"
-  >
-    <thead>
-      <tr>
-        <th
-          nzShowCheckbox
-          nzLeft
-          nzLabel="Select all customers on this page"
-          [nzWidth]="'48px'"
-          [nzChecked]="facade.selection.isPageAllSelected()"
-          [nzIndeterminate]="facade.selection.isPageIndeterminate()"
-          (nzCheckedChange)="facade.selection.togglePage($event)"
-        ></th>
-        <th nzLeft [nzWidth]="'48px'">
-          @if (facade.expansion.count() > 0) {
-            <button
-              nz-button
-              nz-tooltip
-              nzType="text"
-              nzSize="small"
-              nzTooltipTitle="Collapse all"
-              type="button"
-              aria-label="Collapse all expanded rows"
-              (click)="facade.expansion.collapseAll()"
-            >
-              <i nz-icon nzType="up" aria-hidden="true"></i>
-            </button>
-          } @else {
-            <span class="sr-only">Expand details</span>
-          }
-        </th>
-        <th [nzWidth]="'320px'" [fdTableSort]="'company'">Customer</th>
-        <th [nzWidth]="'130px'" [fdTableSort]="'plan'">Plan</th>
-        <th [nzWidth]="'140px'" [fdTableSort]="'status'">Status</th>
-        <th [nzWidth]="'160px'" [fdTableSort]="'owner'">Owner</th>
-        <th [nzWidth]="'150px'" [fdTableSort]="'country'">Country</th>
-        <th [nzWidth]="'130px'" nzAlign="right" class="fd-th-end" [fdTableSort]="'openCases'">Open cases</th>
-        <th [nzWidth]="'120px'" nzAlign="right" class="fd-th-end" [fdTableSort]="'mrr'">MRR</th>
-        <th [nzWidth]="'200px'" [fdTableSort]="'lastActivityAt'">Last activity</th>
-        <th nzRight [nzWidth]="'110px'"><span class="sr-only">Actions</span></th>
-      </tr>
-    </thead>
+<fd-data-table [columns]="columns" [rowKey]="rowKey" [rowLabel]="rowLabel" entity="customers">
+  <ng-template fdTableCell="company" let-customer>
+    <div class="flex min-w-0 items-center gap-3">
+      <nz-avatar class="customer-avatar" aria-hidden="true" [nzText]="customer.initials" />
 
-    <tbody>
-      @for (customer of customersTable.data; track customer.id) {
-        <tr [class.fd-row-selected]="facade.selection.isSelected(customer)">
-          <td
-            nzShowCheckbox
-            nzLeft
-            [nzLabel]="'Select ' + customer.company"
-            [nzChecked]="facade.selection.isSelected(customer)"
-            [nzDisabled]="!facade.selection.isSelectable(customer)"
-            (nzCheckedChange)="facade.selection.toggle(customer, $event)"
-          ></td>
+      <div class="flex min-w-0 flex-col">
+        <strong class="block truncate text-sm font-bold text-slate-950">
+          {{ customer.company }}
+        </strong>
 
-          <td nzLeft>
-            <button
-              nz-button
-              nzType="text"
-              nzSize="small"
-              type="button"
-              [attr.aria-expanded]="facade.expansion.isExpanded(customer)"
-              [attr.aria-controls]="'customer-details-' + customer.id"
-              [attr.aria-label]="(facade.expansion.isExpanded(customer) ? 'Collapse' : 'Expand') + ' details for ' + customer.company"
-              (click)="facade.expansion.toggle(customer, !facade.expansion.isExpanded(customer))"
-            >
-              <i nz-icon [nzType]="facade.expansion.isExpanded(customer) ? 'down' : 'right'" aria-hidden="true"></i>
-            </button>
-          </td>
+        <span class="mt-1 block truncate text-xs text-slate-500"> {{ customer.contactName }} · {{ customer.email }} </span>
+      </div>
+    </div>
+  </ng-template>
 
-          <td>
-            <div class="flex min-w-0 items-center gap-3">
-              <nz-avatar class="customer-avatar" aria-hidden="true" [nzText]="customer.initials" />
+  <ng-template fdTableCell="plan" let-customer>
+    @if (facade.rowEdit.isEditing(customer)) {
+      <nz-select class="w-full" nzAutoFocus [attr.aria-label]="'Plan for ' + customer.company" [formField]="facade.rowEdit.form.plan">
+        @for (option of facade.planOptions; track option.value) {
+          <nz-option [nzValue]="option.value" [nzLabel]="option.label" />
+        }
+      </nz-select>
+    } @else {
+      <nz-tag [nzColor]="customer.plan.color">
+        {{ customer.plan.label }}
+      </nz-tag>
+    }
+  </ng-template>
 
-              <div class="flex min-w-0 flex-col">
-                <strong class="block truncate text-sm font-bold text-slate-950">
-                  {{ customer.company }}
-                </strong>
+  <ng-template fdTableCell="status" let-customer>
+    <nz-tag [nzColor]="customer.status.color">
+      {{ customer.status.label }}
+    </nz-tag>
+  </ng-template>
 
-                <span class="mt-1 block truncate text-xs text-slate-500"> {{ customer.contactName }} · {{ customer.email }} </span>
-              </div>
-            </div>
-          </td>
+  <ng-template fdTableCell="owner" let-customer>
+    @if (facade.rowEdit.isEditing(customer)) {
+      <nz-select class="w-full" [attr.aria-label]="'Owner for ' + customer.company" [formField]="facade.rowEdit.form.owner">
+        @for (member of facade.teamMembers; track member) {
+          <nz-option [nzValue]="member" [nzLabel]="member" />
+        }
+      </nz-select>
+    } @else {
+      {{ customer.owner }}
+    }
+  </ng-template>
 
-          <td>
-            @if (facade.inlineEdit.isEditing(customer)) {
-              <nz-select class="w-full" nzAutoFocus [attr.aria-label]="'Plan for ' + customer.company" [formField]="facade.editForm.plan">
-                @for (option of facade.planOptions; track option.value) {
-                  <nz-option [nzValue]="option.value" [nzLabel]="option.label" />
-                }
-              </nz-select>
-            } @else {
-              <nz-tag [nzColor]="customer.plan.color">
-                {{ customer.plan.label }}
-              </nz-tag>
-            }
-          </td>
+  <ng-template fdTableCell="country" let-customer>{{ customer.country }}</ng-template>
+  <ng-template fdTableCell="openCases" let-customer>{{ customer.openCases }}</ng-template>
+  <ng-template fdTableCell="mrr" let-customer>{{ customer.mrr }}</ng-template>
+  <ng-template fdTableCell="lastActivityAt" let-customer>{{ customer.lastActivityAt }}</ng-template>
 
-          <td>
-            <nz-tag [nzColor]="customer.status.color">
-              {{ customer.status.label }}
-            </nz-tag>
-          </td>
+  <ng-template fdTableCell="actions" let-customer>
+    @if (facade.rowEdit.isEditing(customer)) {
+      <div class="flex items-center gap-1">
+        <button
+          nz-button
+          nz-tooltip
+          nzType="primary"
+          nzSize="small"
+          type="button"
+          nzTooltipTitle="Save"
+          [attr.aria-label]="'Save changes for ' + customer.company"
+          [nzLoading]="facade.rowEdit.isSaving()"
+          [disabled]="facade.rowEdit.form().invalid()"
+          (click)="facade.rowEdit.save()"
+        >
+          <i nz-icon nzType="check" aria-hidden="true"></i>
+        </button>
+        <button
+          nz-button
+          nz-tooltip
+          nzType="text"
+          nzSize="small"
+          type="button"
+          nzTooltipTitle="Cancel"
+          [attr.aria-label]="'Cancel editing ' + customer.company"
+          [disabled]="facade.rowEdit.isSaving()"
+          (click)="facade.rowEdit.cancel()"
+        >
+          <i nz-icon nzType="close" aria-hidden="true"></i>
+        </button>
+      </div>
+    } @else {
+      <button
+        nz-button
+        nz-tooltip
+        nzType="text"
+        nzSize="small"
+        type="button"
+        nzTooltipTitle="Edit plan and owner"
+        [id]="editButtonIdPrefix + customer.id"
+        [attr.aria-label]="'Edit ' + customer.company"
+        [disabled]="facade.rowEdit.isSaving()"
+        (click)="facade.rowEdit.start(customer)"
+      >
+        <i nz-icon nzType="edit" aria-hidden="true"></i>
+      </button>
+    }
+  </ng-template>
 
-          <td>
-            @if (facade.inlineEdit.isEditing(customer)) {
-              <nz-select class="w-full" [attr.aria-label]="'Owner for ' + customer.company" [formField]="facade.editForm.owner">
-                @for (member of facade.teamMembers; track member) {
-                  <nz-option [nzValue]="member" [nzLabel]="member" />
-                }
-              </nz-select>
-            } @else {
-              {{ customer.owner }}
-            }
-          </td>
-          <td>{{ customer.country }}</td>
-          <td nzAlign="right">{{ customer.openCases }}</td>
-          <td nzAlign="right">{{ customer.mrr }}</td>
-          <td>{{ customer.lastActivityAt }}</td>
-
-          <td nzRight>
-            @if (facade.inlineEdit.isEditing(customer)) {
-              <div class="flex items-center gap-1">
-                <button
-                  nz-button
-                  nz-tooltip
-                  nzType="primary"
-                  nzSize="small"
-                  type="button"
-                  nzTooltipTitle="Save"
-                  [attr.aria-label]="'Save changes for ' + customer.company"
-                  [nzLoading]="facade.isSaving()"
-                  [disabled]="facade.editForm().invalid()"
-                  (click)="facade.saveEdit()"
-                >
-                  <i nz-icon nzType="check" aria-hidden="true"></i>
-                </button>
-                <button
-                  nz-button
-                  nz-tooltip
-                  nzType="text"
-                  nzSize="small"
-                  type="button"
-                  nzTooltipTitle="Cancel"
-                  [attr.aria-label]="'Cancel editing ' + customer.company"
-                  [disabled]="facade.isSaving()"
-                  (click)="facade.cancelEdit()"
-                >
-                  <i nz-icon nzType="close" aria-hidden="true"></i>
-                </button>
-              </div>
-            } @else {
-              <button
-                nz-button
-                nz-tooltip
-                nzType="text"
-                nzSize="small"
-                type="button"
-                nzTooltipTitle="Edit plan and owner"
-                [id]="editButtonIdPrefix + customer.id"
-                [attr.aria-label]="'Edit ' + customer.company"
-                [disabled]="facade.isSaving()"
-                (click)="facade.startEdit(customer)"
-              >
-                <i nz-icon nzType="edit" aria-hidden="true"></i>
-              </button>
-            }
-          </td>
-        </tr>
-
-        <tr [nzExpand]="facade.expansion.isExpanded(customer)" [id]="'customer-details-' + customer.id">
-          @if (facade.expansion.isExpanded(customer)) {
-            <fd-customer-details [customer]="customer" />
-          }
-        </tr>
-      }
-    </tbody>
-  </nz-table>
+  <ng-template fdTableExpandedRow let-customer>
+    <fd-customer-details [customer]="customer" />
+  </ng-template>
 
   <fd-table-selection-bar>
-    <button nz-button nzDanger type="button" [nzLoading]="facade.isDeleting()" (click)="facade.deleteSelected()">
+    <button nz-button nzDanger type="button" [nzLoading]="facade.bulkDelete.isDeleting()" (click)="facade.bulkDelete.deleteSelected()">
       <i nz-icon nzType="delete"></i>
       Delete
     </button>
   </fd-table-selection-bar>
-</section>
+</fd-data-table>
