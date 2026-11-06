@@ -1,83 +1,44 @@
-<section class="fd-data-table-card">
-  <nz-table
-    #casesTable
-    class="fd-data-table"
-    fdTableState
-    [nzFrontPagination]="false"
-    [nzData]="table.items()"
-    [nzLoading]="table.isLoading()"
-    [nzTotal]="table.total()"
-    [nzPageIndex]="table.pageIndex()"
-    [nzPageSize]="table.pageSize()"
-    [nzScroll]="table.scroll()"
-  >
-    <thead>
-      <tr>
-        <th [nzWidth]="'100px'" [fdTableSort]="'id'">Case ID</th>
-        <th [nzWidth]="'260px'" [fdTableSort]="'customer'">Customer</th>
-        <th [nzWidth]="'180px'" [fdTableSort]="'category'">Category</th>
-        <th [nzWidth]="'130px'" [fdTableSort]="'priority'">Priority</th>
-        <th [nzWidth]="'150px'" [fdTableSort]="'status'">Status</th>
-        <th [nzWidth]="'120px'" [fdTableSort]="'sla'">SLA</th>
-        <th [nzWidth]="'160px'" [fdTableSort]="'assignee'">Assignee</th>
-        <th [nzWidth]="'210px'" [fdTableSort]="'updatedAt'">Updated</th>
-        <th [nzWidth]="'96px'" class="text-center whitespace-nowrap">Actions</th>
-      </tr>
-    </thead>
+<fd-data-table [columns]="columns" [rowKey]="rowKey" [rowLabel]="rowLabel" entity="cases">
+  <ng-template fdTableCell="id" let-caseItem>
+    <strong class="case-id">{{ caseItem.id }}</strong>
+  </ng-template>
 
-    <tbody>
-      @for (caseItem of casesTable.data; track caseItem.id) {
-        <tr>
-          <td>
-            <strong class="case-id">{{ caseItem.id }}</strong>
-          </td>
+  <ng-template fdTableCell="customer" let-caseItem>
+    <div class="flex min-w-0 flex-col">
+      <strong class="block truncate text-sm font-bold text-slate-950">
+        {{ caseItem.customer }}
+      </strong>
 
-          <td>
-            <div class="flex min-w-0 flex-col">
-              <strong class="block truncate text-sm font-bold text-slate-950">
-                {{ caseItem.customer }}
-              </strong>
+      <span class="mt-1 block truncate text-xs text-slate-500">
+        {{ caseItem.title }}
+      </span>
+    </div>
+  </ng-template>
 
-              <span class="mt-1 block truncate text-xs text-slate-500">
-                {{ caseItem.title }}
-              </span>
-            </div>
-          </td>
+  <ng-template fdTableCell="category" let-caseItem>{{ caseItem.categoryLabel }}</ng-template>
 
-          <td>{{ caseItem.categoryLabel }}</td>
+  <ng-template fdTableCell="priority" let-caseItem>
+    <nz-tag [nzColor]="caseItem.priority.color">
+      {{ caseItem.priority.label }}
+    </nz-tag>
+  </ng-template>
 
-          <td>
-            <nz-tag [nzColor]="caseItem.priority.color">
-              {{ caseItem.priority.label }}
-            </nz-tag>
-          </td>
+  <ng-template fdTableCell="status" let-caseItem>
+    <nz-tag [nzColor]="caseItem.status.color">
+      {{ caseItem.status.label }}
+    </nz-tag>
+  </ng-template>
 
-          <td>
-            <nz-tag [nzColor]="caseItem.status.color">
-              {{ caseItem.status.label }}
-            </nz-tag>
-          </td>
+  <ng-template fdTableCell="sla" let-caseItem>
+    <span class="sla-value">{{ caseItem.sla }}</span>
+  </ng-template>
 
-          <td>
-            <span class="sla-value">{{ caseItem.sla }}</span>
-          </td>
+  <ng-template fdTableCell="assignee" let-caseItem>{{ caseItem.assignee }}</ng-template>
+  <ng-template fdTableCell="updatedAt" let-caseItem>{{ caseItem.updatedAt }}</ng-template>
 
-          <td>{{ caseItem.assignee }}</td>
-          <td>{{ caseItem.updatedAt }}</td>
-
-          <td class="text-center whitespace-nowrap">
-            <button
-              nz-button
-              nzType="link"
-              type="button"
-              [disabled]="caseItem.statusValue === caseStatus.CLOSED"
-              (click)="closeCase(caseItem)"
-            >
-              Close
-            </button>
-          </td>
-        </tr>
-      }
-    </tbody>
-  </nz-table>
-</section>
+  <ng-template fdTableCell="actions" let-caseItem>
+    <button nz-button nzType="link" type="button" [disabled]="caseItem.statusValue === caseStatus.CLOSED" (click)="closeCase(caseItem)">
+      Close
+    </button>
+  </ng-template>
+</fd-data-table>

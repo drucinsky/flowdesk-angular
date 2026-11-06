@@ -1,0 +1,132 @@
+<section class="fd-data-table-card">
+  <nz-table
+    class="fd-data-table"
+    fdTableState
+    [nzFrontPagination]="false"
+    [nzData]="table.items()"
+    [nzLoading]="table.isLoading()"
+    [nzTotal]="table.total()"
+    [nzPageIndex]="table.pageIndex()"
+    [nzPageSize]="table.pageSize()"
+    [nzScroll]="table.scroll()"
+  >
+    <thead>
+      <tr>
+        @if (selection) {
+          <th
+            nzShowCheckbox
+            nzLeft
+            [nzLabel]="'Select all ' + entity() + ' on this page'"
+            [nzWidth]="'48px'"
+            [nzChecked]="selection.isPageAllSelected()"
+            [nzIndeterminate]="selection.isPageIndeterminate()"
+            (nzCheckedChange)="selection.togglePage($event)"
+          ></th>
+        }
+
+        @if (expansion && expandedRow()) {
+          <th nzLeft [nzWidth]="'48px'">
+            @if (expansion.count() > 0) {
+              <button
+                nz-button
+                nz-tooltip
+                nzType="text"
+                nzSize="small"
+                nzTooltipTitle="Collapse all"
+                type="button"
+                aria-label="Collapse all expanded rows"
+                (click)="expansion.collapseAll()"
+              >
+                <i nz-icon nzType="up" aria-hidden="true"></i>
+              </button>
+            } @else {
+              <span class="sr-only">Expand details</span>
+            }
+          </th>
+        }
+
+        @for (column of columns(); track column.key) {
+          @if (column.sortKey; as sortKey) {
+            <th
+              [fdTableSort]="sortKey"
+              [nzWidth]="column.width"
+              [nzAlign]="column.align ?? null"
+              [nzLeft]="column.fixed === 'left'"
+              [nzRight]="column.fixed === 'right'"
+              [class.fd-th-end]="column.align === 'right'"
+            >
+              {{ column.header }}
+            </th>
+          } @else {
+            <th
+              [nzWidth]="column.width"
+              [nzAlign]="column.align ?? null"
+              [nzLeft]="column.fixed === 'left'"
+              [nzRight]="column.fixed === 'right'"
+            >
+              <span [class.sr-only]="column.hideHeader">{{ column.header }}</span>
+            </th>
+          }
+        }
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (row of table.items(); track rowKey()(row)) {
+        <tr [class.fd-row-selected]="selection?.isSelected(row)">
+          @if (selection) {
+            <td
+              nzShowCheckbox
+              nzLeft
+              [nzLabel]="'Select ' + rowLabel()(row)"
+              [nzChecked]="selection.isSelected(row)"
+              [nzDisabled]="!selection.isSelectable(row)"
+              (nzCheckedChange)="selection.toggle(row, $event)"
+            ></td>
+          }
+
+          @if (expansion && expandedRow()) {
+            <td nzLeft>
+              <button
+                nz-button
+                nzType="text"
+                nzSize="small"
+                type="button"
+                [attr.aria-expanded]="expansion.isExpanded(row)"
+                [attr.aria-controls]="detailsId(row)"
+                [attr.aria-label]="(expansion.isExpanded(row) ? 'Collapse' : 'Expand') + ' details for ' + rowLabel()(row)"
+                (click)="expansion.toggle(row, !expansion.isExpanded(row))"
+              >
+                <i nz-icon [nzType]="expansion.isExpanded(row) ? 'down' : 'right'" aria-hidden="true"></i>
+              </button>
+            </td>
+          }
+
+          @for (column of columns(); track column.key) {
+            <td
+              [nzAlign]="column.align ?? null"
+              [nzLeft]="column.fixed === 'left'"
+              [nzRight]="column.fixed === 'right'"
+              [class]="column.cellClass ?? ''"
+            >
+              @let template = cellTemplates().get(column.key);
+              @if (template) {
+                <ng-container *ngTemplateOutlet="template; context: { $implicit: row }" />
+              }
+            </td>
+          }
+        </tr>
+
+        @if (expansion && expandedRow(); as expanded) {
+          <tr [nzExpand]="expansion.isExpanded(row)" [id]="detailsId(row)">
+            @if (expansion.isExpanded(row)) {
+              <ng-container *ngTemplateOutlet="expanded.template; context: { $implicit: row }" />
+            }
+          </tr>
+        }
+      }
+    </tbody>
+  </nz-table>
+
+  <ng-content />
+</section>
